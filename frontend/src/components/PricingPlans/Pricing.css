@@ -1,0 +1,79 @@
+/* Pricing.jsx file  */
+
+.pricing_Wrapper{
+    margin-top: 4.25rem !important;
+    background-color: #c7e7f7;
+}
+.pricing_Wrapper .title{
+  padding-top: 1rem !important;
+    color: #0064ff;
+  }
+  .pricing_Wrapper .row{
+    margin-top: 2rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pricing_Wrapper .card_border{
+    padding: 1.25rem 1.5rem;
+    margin: 1rem;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    line-height: 2.5;
+    border-radius: 0.5rem;
+    background-color: var(--cream);
+    transition: transform 0.3s ease, padding 0.3s ease;
+    
+  }
+  .pricing_Wrapper .card_border:hover{
+    transform: translateY(-10px); 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid #2664af;
+    background-color: #75abfb !important;
+  }
+.pricing_Wrapper .card_border h5{
+    position: relative;
+}
+  .pricing_Wrapper .card_border h5::after{
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 20%;
+    background-color: var(--primary);
+    left: 40%;
+    bottom: -10px;
+  }
+  .pricing_Wrapper .card_border ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pricing_Wrapper .card_border .Popular_btn{
+    border-radius: 1.5rem;
+    margin-bottom: 1rem;
+    background-color: var(--darkgreen);
+    color: white;
+  }
+  .pricing_Wrapper .card_border .get_started{
+    padding: 0.5rem 1rem;
+    border-radius: 1.5rem;
+    background-color: var(--yellow);
+  }
+  .pricing_Wrapper .card_border .get_started:hover{
+    background-color: #e8a303;
+  }
+  .pricing_Wrapper .card_border .price{
+    color :var(--primary);
+    margin-top: 1rem;
+  }
+
+
+  /* Responsive Designs  */
+  @media(max-width:767px){
+    .pricing_Wrapper .row{
+        padding: 1.25rem;
+    }
+ 
+  }

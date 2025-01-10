@@ -1,0 +1,258 @@
+/*
+ Login Page and SignUp Page
+   */
+
+
+.home_wrapper {
+  height: 100vh;
+  overflow: auto !important;
+  display: flex;
+  justify-content: end;
+  align-items: center; 
+  background-color: #c4ccdc;
+  /* background-color: var(--bg-background); */
+}
+
+.form-control{
+  border-radius: 0 !important;
+}
+.home_wrapper .home_formPage {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.login_Page {
+  background-image: url("../../assests/login3.png");
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 8px 0 0 8px;
+  background-color: #fff;
+  min-height: 60vh;
+}
+
+.home_form {
+  width: 100%;
+  position: relative;
+  background-color:#fff;
+  z-index: 11;
+  border-radius: 0 8px 8px 0;
+}
+
+.home_form::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 8px 8px 0;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 96%,
+    0 0,
+    78% 0,
+    100% 36%,
+    100% 100%,
+    0 98%,
+    100% 100%,
+    100% 0%
+  );
+  background-color: #2664af; 
+  z-index: -1; 
+}
+
+.home_formPage .admin {
+  font-size: 58px;
+}
+
+/* Input field border for Home and Sign up */
+.home_form input,
+.signup_wrapper input {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-bottom: 20px; 
+  border: none;
+  border-bottom: 2px solid #84a6d6 !important;
+  background: transparent;
+}
+
+.home_form input:focus,
+.signup_wrapper input:focus {
+  border-bottom: 2px solid #2664af!important;
+}
+
+.form-label {
+  margin-left: 8px !important;
+  font-weight: 500;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  background-color: transparent;
+}
+
+@media(max-width:430px){
+    .login_Page {
+        border-radius: 0;
+    }
+    .home_form{
+        border-radius: 0;
+    }
+    .home_form::after{
+        clip-path: polygon(
+            0% 0%,
+            0% 100%,
+            0 96%,
+            0 0,
+            78% 0,
+            100% 29%,
+            100% 100%,
+            0 98%,
+            100% 100%,
+            100% 0%
+          );
+          border-radius: 0;
+    }
+}
+@media (max-width: 767px) {
+  .login_Page {
+    min-height: 45vh;
+    margin-top: 7rem;
+  }
+}
+
+
+/* 
+Sign Up Page
+ */
+
+.signup_wrapper {
+  padding: 3rem;
+  background-color: #c4ccdc;
+}
+
+.signup_wrapper .signup_formPage {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+.signup_wrapper .signup_sidebar {
+  background-image: url("../../assests/signup1.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  min-height: 60vh;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  background-color: #fff;
+}
+
+.signup_wrapper .signup_righsidebar {
+  /* background-color: #2664af; */
+  background-color: #fff;
+  position: relative;
+  z-index: 11;
+  border-radius: 0 1rem 1rem 0;
+}
+
+.signup_righsidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 1rem 1rem 0;
+  background-color: #2664af;
+  z-index: -1;
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    0 96%,
+    0 0,
+    80% 0,
+    100% 20%,
+    100% 100%,
+    0 98%,
+    100% 100%,
+    100% 0%
+  );
+  /* clip-path: polygon(30% 13%, 100% 18%, 100% 20%, 100% 100%, 0 100%, 0 16%); */
+}
+
+
+/* Signup Sidebar  */
+@media (max-width: 768px) {
+  .signup_wrapper .signup_formPage {
+    border-radius: 0;
+  }
+}
+
+.signup_wrapper input {
+  width: 90%;
+}
+.home_wrapper .btn-primary,
+.signup_wrapper .btn-primary {
+  width: 90%;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+
+/* 
+Responsive image 
+ */
+@media (max-width: 1024px) {
+  .signup_wrapper {
+    padding: 1rem;
+  }
+  .signup_wrapper .signup_sidebar {
+    background-size: contain;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .signup_wrapper {
+    padding: 0;
+  }
+
+  .signup_wrapper .signup_sidebar {
+    /* min-height: 45vh; */
+    border-radius: 0;
+    background-size: cover;
+  }
+
+  .signup_righsidebar::after {
+    border-radius: 0;
+  }
+}
+@media (max-width: 430px) {
+  .signup_wrapper input,
+  .signup_wrapper .btn-primary {
+    width: 100%;
+  }
+}
+
+/* Home Page Button  */
+@media (max-width: 430px) {
+  .home_form input,
+  .home_wrapper .btn-primary {
+    width: 100%;
+  }
+
+  .signup_righsidebar::after {
+    clip-path: polygon(  0% 0% 0% 100% 0 96%, 0 0,  85% 0, 100% 14%,  100% 100%, 0 98%,  100% 100%, 100% 0%
+    );
+  }
+}
+
+
+/* Sweet Alert  */
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
+    background-color: #2d40ad !important;
+    border: none !important;
+}

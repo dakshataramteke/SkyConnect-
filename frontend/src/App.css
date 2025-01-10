@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-family: apercu, sans-serif;
+}
+:root{
+  --darkgreen: #73786a;
+  --lightblue: #dde7f0;
+  --green: #5d6457;
+  --blue: #cdd8da;
+  --cream: #f0ece5;
+  --primary : #007bff;
+  --grey: rgb(209, 209, 209);
+  --darkblue: #2664af;
+  --black: var(--black);
+  --bg-background : #759cd3;
+}
+.full_background{
+    /* background-color:var(--bg-background); */
+    background-color: #c7e7f7 ;
+  }
+  
+.spinner-border-sm {
+  --bs-spinner-width: none;
+  --bs-spinner-height: none;
+  --bs-spinner-border-width:none;
+}
