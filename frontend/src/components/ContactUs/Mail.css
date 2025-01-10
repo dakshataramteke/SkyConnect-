@@ -256,3 +256,7 @@ input[type="color"] {
   border: 1px solid var(--darkblue);
 }
 
+/* Progress Bar  */
+.progress .progress-stacked{
+ height:0.75rem !important;
+}

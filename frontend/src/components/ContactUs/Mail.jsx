@@ -17,6 +17,10 @@ const Mail = ({ emails }) => {
     message: "",
   });
 
+  const [sentCount, setSentCount] = useState(0); // Count of sent emails
+  const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
+  const [progress, setProgress] = useState(0); // Progress state
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
@@ -56,88 +60,83 @@ const Mail = ({ emails }) => {
     sendEmail();
   };
 
-  const sendEmail = (bannerData) => {
-        const emailPayload = {
-          // to: value.to,
-          toList: value.to,
-          from: value.from,
-          password: value.password,
-          subject: value.subject,
-          htmlContent: `
-        <div style="width: 500px;margin:auto; background-color:whitesmoke">
-          <div style="background-color: ${bannerData.selectedColor}; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
-            <img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />
-          </div>
-          <div style="text-align:center; color: black; ">
-            <h3>${bannerData.companyName}</h3>
-          </div>
-          <div style="text-align:center; margin-top: 1rem;">
-            <img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />
-          </div>
-          <div style="margin: 2rem 0; padding: 0 1.5rem;">  
-            <div>${value.message}</div>
-          </div>
-          <div style="text-align:center; margin-top: 3.5rem;  ">
-            <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-              <button style="background-color: ${bannerData.selectedbuttonColor}; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold; background-color: orange;">
-                ${bannerData.buttonName}
-              </button>
-            </a>
-          </div>
-          <div style=" margin: 1.5rem;">
-            <p >Best regards,</p>
-            <h5 style="color:#0064ff; padding:0 0 1.5rem">SV Bulk Mailer</h6>
-          </div>
-        </div>
-    `,
-        };
-    
-        console.log("Sending email with payload:", emailPayload); // Log the payload
-    
-         // Simulate an API call
-    setTimeout(() => {
-      console.log('Email sent:', emailPayload);
+  const sendEmail = async (bannerData) => {
+    const emailAddresses = value.to.split(",").map(email => email.trim());
+    const totalEmails = emailAddresses.length;
 
-    }, 2000);
-    
-        axios
-          .post("http://localhost:8080/contact", emailPayload)
-          .then((res) => {
-            console.log("Response from server:", res.data); // Log the response
-            Swal.fire({
-              title: "Successfully",
-              text: "Your email has been sent.",
-              icon: "success",
-            }).then(() => {
-
-          });
-            // Clear the form data
-            setValue({
-              to: "",
-              from: "",
-              password: "",
-              subject: "",
-              message: "",
-            });
-          })
-          .catch((err) => {
-            console.error("Error sending email:", err);
-            Swal.fire({
-              title: "Error",
-              text: "Failed to send email.",
-              icon: "error",
-            }).then(() => {
-              // setLoading(false); // Re-enable the button after the alert is confirmed
-          });
-          });
+    for (let i = 0; i < totalEmails; i++) {
+      const emailPayload = {
+        toList: emailAddresses[i],
+        from: value.from,
+        password: value.password,
+        subject: value.subject,
+        htmlContent: `
+          <div style="width: 500px;margin:auto; background-color:whitesmoke">
+            <div style="background-color: ${bannerData.selectedColor}; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
+              <img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />
+            </div>
+            <div style="text-align:center; color: black; ">
+              <h3>${bannerData.companyName}</h3>
+            </div>
+            <div style="text-align:center; margin-top: 1rem;">
+              <img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />
+            </div>
+            <div style="margin: 2rem 0; padding: 0 1.5rem;">  
+              <div>${value.message}</div>
+            </div>
+            <div style="text-align:center; margin-top: 3.5rem;  ">
+              <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
+                <button style="background-color: ${bannerData.selectedbuttonColor}; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold; background-color: orange;">
+                  ${bannerData.buttonName}
+                </button>
+              </a>
+            </div>
+            <div style=" margin: 1.5rem;">
+              <p >Best regards,</p>
+              <h5 style="color:#0064ff; padding:0 0 1.5rem">SV Bulk Mailer</h5>
+            </div>
+          </div>
+        `,
       };
+
+      try {
+        const response = await axios.post ("http://localhost:8080/contact", emailPayload);
+        console.log("Response from server:", response.data);
+        setSentCount((prevCount) => prevCount + 1);
+        const progressPercentage = Math.round(((i + 1) / totalEmails) * 100);
+        setProgress(progressPercentage); // Update progress state
+        setNotSentCount(response.data.notSentCount); // Update not sent count if needed
+      } catch (error) {
+        console.error("Error sending email:", error);
+        Swal.fire({
+          title: "Error",
+          text: "Failed to send email.",
+          icon: "error",
+        });
+      }
+    }
+
+    Swal.fire({
+      title: "Successfully",
+      text: "Your emails have been sent.",
+      icon: "success",
+    });
+
+    // Clear the form data
+    setValue({
+      to: "",
+      from: "",
+      password: "",
+      subject: "",
+      message: "",
+    });
+  };
 
   return (
     <>
-  
       <section className="full_background multiple_wrapper">
         <div className="container p-3">
-        <h2 className="text-center title ">Multiple Mail Wave</h2>
+          <h2 className="text-center title ">Multiple Mail Wave</h2>
           <div className="row form_body">
             <div
               className="col-12 col-md-5 banner_Mail"
@@ -247,7 +246,8 @@ const Mail = ({ emails }) => {
                         onChange={handleQuillChange}
                         required
                       />
-                      <div className="invalid-feedback">
+                      <div 
+                      className="invalid -feedback">
                         Please provide a message.
                       </div>
                     </div>
@@ -259,11 +259,9 @@ const Mail = ({ emails }) => {
         </div>
       </section>
 
-      <PreviewMail value={value} sendEmail={sendEmail} />
+      <PreviewMail value={value} sendEmail={sendEmail} sentCount={sentCount} notSentCount={notSentCount} progress={progress} />
     </>
   );
 };
 
 export default Mail;
-
-
