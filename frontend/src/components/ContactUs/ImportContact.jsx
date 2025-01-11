@@ -56,6 +56,7 @@ const ImportContact = () => {
       });
     });
     setEmails(emailArray);
+    setToEmails(emailArray); // Store all extracted emails
     setEmailsExtracted(true);
     console.log("Extracted Emails: ", emailArray);
   };
@@ -72,7 +73,7 @@ const ImportContact = () => {
 
     const processedEmails = emails
       .map((email) => email.trim())
-      .filter((email) => email.includes("@"));
+  
 
     if (processedEmails.length === 0) {
       Swal.fire({
@@ -100,7 +101,7 @@ const ImportContact = () => {
 
       if (response.status === 200) {
         setEmails([]);
-        setToEmails(processedEmails); // Set the emails to be sent
+        setToEmails(emails); // Set the emails to be sent (both valid and invalid)
         setShowMail(true); // Show the Mail component
       }
     } catch (error) {
@@ -120,7 +121,7 @@ const ImportContact = () => {
       <section className="full_background import_background">
         <Tabs />
         <div className="container shadow-none" style={{ marginTop: "1rem" }}>
-          <h2 className="text-center title ">Multiple Mail Wave</h2>
+          <h2 className ="text-center title ">Multiple Mail Wave</h2>
           <p className="text-center" style={{ padding: "0 2rem", lineHeight: "2rem" }}>
             Sending Multiple messages and information to Organization.
           </p>
@@ -247,7 +248,7 @@ const ImportContact = () => {
         </div>
       </section>
 
-      {showMail && <Mail emails={toEmails} />} {/* Pass the emails directly to the Mail component */}
+      {showMail && <Mail emails={toEmails} />} {/* Pass all emails (valid and invalid) to the Mail component */}
     </>
   );
 };

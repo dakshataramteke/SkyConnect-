@@ -18,6 +18,7 @@ const SingleMail = () => {
 
   const [error, setError] = useState(""); 
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
+  const [sentCount, setSentCount] = useState(0); // Count of sent emails
   const [progress, setProgress] = useState(0); 
   const [loading, setLoading] = useState(false); // Loading state for progress
   const formRef = useRef(null);
@@ -111,12 +112,12 @@ const SingleMail = () => {
             `,
     };
 
-    console.log("Sending email with payload:", emailPayload); // Log the payload
+    console.log(" Sending email with payload:", emailPayload); // Log the payload
 
     // Simulate progress
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev < 100 ) {
+        if (prev < 100) {
           return prev + (100 / emailCount); // Increment progress based on email count
         }
         return prev; // Keep it at 100% after completion
@@ -124,13 +125,25 @@ const SingleMail = () => {
     }, 500); // Update every 500ms
 
     try {
+      let deliveredCount = 0; // Count of successfully sent emails
+      let undeliveredCount = 0; // Count of failed emails
+
       for (const email of emailList) {
-        await axios.post("http://localhost:8080/SingleMail", { ...emailPayload, toList: email });
+        try {
+          await axios.post("http://localhost:8080/SingleMail", { ...emailPayload, toList: email });
+          deliveredCount++; // Increment delivered count
+        } catch (error) {
+          undeliveredCount++; // Increment undelivered count
+          console.error("Error sending email to:", email, error);
+        }
       }
+
+      setSentCount(deliveredCount); // Update sent count
+      setNotSentCount(undeliveredCount); // Update not sent count
 
       Swal.fire({
         title: "Successfully",
-        text: "Your email has been sent to all recipients.",
+        text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
         icon: "success",
       }).then(() => {
         // Clear the form data
@@ -195,7 +208,7 @@ const SingleMail = () => {
                       <div className="invalid-feedback">Please provide a password.</div>
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="subject" className="form-label">
+                      <label htmlFor=" subject" className="form-label">
                         Subject: <span style={{ color: "red" }}> *</span>
                       </label>
                       <input type="text" className="form-control" id="subject" placeholder="Enter Subject " name="subject" value={value.subject} onChange={handleChange} required />
@@ -206,7 +219,7 @@ const SingleMail = () => {
                       <label htmlFor="message" className="form-label">
                         Message :<span style={{ color: "red" }}> *</span>
                       </label>
-                      <ReactQuill theme="snow" style={{ height: "100px", width: "100%" }} name="message" value={value.message} onChange={ handleQuillChange} required />
+                      <ReactQuill theme="snow" style={{ height: "100px", width: "100%" }} name="message" value={value.message} onChange={handleQuillChange} required />
                       <div className="invalid-feedback">Please provide a message.</div>
                     </div>
                   </div>
@@ -232,7 +245,7 @@ const SingleMail = () => {
           </div>
         </div>
       </section>
-      <PreviewMail value={value} sendEmail={sendEmail} progress={progress} loading={loading} />
+      <PreviewMail value={value} sendEmail={sendEmail} sentCount={sentCount} notSentCount={notSentCount} progress={progress} loading={loading} />
     </>
   );
 };
