@@ -14,7 +14,7 @@ const Pricing = () => {
         <p>Powerful, User-Friendly and Scalable Email Solution.</p>
        
     </div>
-     <div className="row mt-5">
+     <div className="row ">
         <div className="col-12 col-md-3 card_border">
         <h2>Beginner </h2>
         <h5>Start a Trial</h5>

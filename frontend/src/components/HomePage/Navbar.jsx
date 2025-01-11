@@ -95,7 +95,7 @@ const Navbar = () => {
       end // Add this prop
       style={({ isActive }) => ({
         textDecoration: isActive ? 'underline' : 'none',
-        color: isActive ? 'white' : 'inherit',
+        color: isActive ? 'black' : 'inherit',
       })}
     >
       Home
@@ -107,7 +107,7 @@ const Navbar = () => {
       to="/home/Pricing"
       style={({ isActive }) => ({
         textDecoration: isActive ? 'underline' : 'none',
-        color: isActive ? 'white' : 'inherit',
+        color: isActive ? 'black' : 'inherit',
       })}
     >
       Upgrade

@@ -168,12 +168,7 @@ const ImportContact = () => {
                       </th>
                     ) : (
                       <>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>City</th>
-                        <th>Project</th>
-                        <th>Email</th>
-                        <th>Contact Number</th>
+                        {/* <th></th> */}
                       </>
                     )}
                   </tr>

@@ -44,11 +44,12 @@ const Tabs = () => {
       <section className="homesection_wrapper">
       <div className="container">
         <div className="row">
-          <div className="col-12 col-md-6 d-flex justify-content-center">
+        {/* <div className="col-md-1"></div> */}
+          <div className="offset-md-1 col-12 col-md-5 d-flex justify-content-center align-items-center p-3">
           <ul className="nav nav-pills">
             <li className="nav-item">
               <a
-                className={`mt-3 nav-link ${activeTab === "SingleMail" ? "active" : ""}`}
+                className={` nav-link ${activeTab === "SingleMail" ? "active" : ""}`}
                 onClick={handleSingleMailClick}
               >
                 Single Mail
@@ -57,11 +58,11 @@ const Tabs = () => {
           
           </ul>
           </div>
-          <div className="col-12 col-md-6 d-flex justify-content-center">
+          <div className=" col-12 col-md-5 d-flex justify-content-center align-items-center p-3">
           <ul className="nav nav-pills">
           <li className="nav-item">
               <a
-                className={`mt-3 nav-link ${activeTab === "MultipleMail" ? "active" : ""}`}
+                className={` nav-link ${activeTab === "MultipleMail" ? "active" : ""}`}
                 onClick={handleMultipleMailClick}
               >
                 Multiple Mail

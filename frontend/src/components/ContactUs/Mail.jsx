@@ -1,14 +1,15 @@
 
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
-import "./Mail.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
 import { useLocation } from "react-router-dom"; // Import useLocation
+import "./Mail.css";
 
 const Mail = ({ emails }) => {
   const location = useLocation(); // Get the location object
+  
   const [value, setValue] = useState({
     to: emails.join(", "), // Initialize the to field with the passed emails
     from: "",
@@ -103,11 +104,13 @@ const Mail = ({ emails }) => {
         const response = await axios.post ("http://localhost:8080/contact", emailPayload);
         console.log("Response from server:", response.data);
         setSentCount((prevCount) => prevCount + 1);
+        console.log("mail sent ok");
         const progressPercentage = Math.round(((i + 1) / totalEmails) * 100);
         setProgress(progressPercentage); // Update progress state
         setNotSentCount(response.data.notSentCount); // Update not sent count if needed
       } catch (error) {
         console.error("Error sending email:", error);
+        console.log("mail sent fail")
         Swal.fire({
           title: "Error",
           text: "Failed to send email.",
@@ -118,7 +121,7 @@ const Mail = ({ emails }) => {
 
     Swal.fire({
       title: "Successfully",
-      text: "Your emails have been sent.",
+      text: `Your emails have been sent  ${sentCount}`,
       icon: "success",
     });
 
@@ -248,7 +251,7 @@ const Mail = ({ emails }) => {
                       />
                       <div 
                       className="invalid -feedback">
-                        Please provide a message.
+                       
                       </div>
                     </div>
                   </div>
