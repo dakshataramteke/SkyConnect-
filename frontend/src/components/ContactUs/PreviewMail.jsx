@@ -161,9 +161,9 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     onChange={handleChanges}
                   />
                 </div>
-                <div>
-                  <p>Delivered Mail: {sentCount}</p>
-                  <p>Undelivered Mail: {notSentCount}</p>
+                <div className="text-center">
+                  <p style={{color: 'green' , margin:'0.25rem'}}> <span style={{ fontWeight:'500'}}>Delivered Mail:</span> {sentCount}</p>
+                  <p style={{color:'red'}}> <span style={{ fontWeight:'500'}}>UnDelivered Mail:</span> {notSentCount}</p>
                 </div>
 
                 {loading && (
