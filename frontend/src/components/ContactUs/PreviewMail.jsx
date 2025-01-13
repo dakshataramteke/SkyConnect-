@@ -26,11 +26,57 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount,validateSingleM
     }));
   };
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const form = formRef.current;
+  //   if (loading) return; // Prevent further clicks if already loading
+
+  
+  //   const isValid = validateSingleMail();
+  //   if (!form.checkValidity() || !isValid) {
+  //     form.classList.add("was-validated");
+  //     Swal.fire({
+  //       title: "Error",
+  //       text: "Please fill in all required fields.",
+  //       icon: "error",
+  //     });
+  //     return;
+  //   }
+
+  //   // Prepare the banner data to send to Mail component
+  //   const bannerData = {
+  //     logoUrl: values.logoUrl || "https://www.shutterstock.com/image-photo/light-blue-flower-on-white-600nw-2391760867.jpg",
+  //     bannerUrl: values.bannerUrl || "https://m.media-amazon.com/images/I/71tTon2ueNL.jpg",
+  //     companyName: values.companyName || " Company Name",
+  //     buttonName: values.buttonName || "Click Here",
+  //     buttonUrl: values.buttonUrl || "#",
+  //     selectedColor: values.selectedColor || "#000",
+  //     selectedbuttonColor: values.selectedbuttonColor || "#FFA500", // Orange as default
+  //   };
+    
+
+  //   try {
+  //     setLoading(true); // Set loading state before sending email
+  //     await sendEmail(bannerData);
+  //   } catch (error) {
+  //     Swal.fire({
+  //       title: "Error",
+  //       text: "Failed to send email.",
+  //       icon: "error",
+  //     });
+  //   } finally {
+  //     setTimeout(() => {
+  //       setLoading(false); 
+  //     }, 1000);
+  //   }
+  // };
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = formRef.current;
     if (loading) return; // Prevent further clicks if already loading
-
   
     const isValid = validateSingleMail();
     if (!form.checkValidity() || !isValid) {
@@ -42,19 +88,18 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount,validateSingleM
       });
       return;
     }
-
-    // Prepare the banner data to send to Mail component
+  
+    // Ensure fallback values for banner data
     const bannerData = {
-      logoUrl: values.logoUrl || "https://www.shutterstock.com/image-photo/light-blue-flower-on-white-600nw-2391760867.jpg",
-      bannerUrl: values.bannerUrl || "https://m.media-amazon.com/images/I/71tTon2ueNL.jpg",
-      companyName: values.companyName || " Company Name",
-      buttonName: values.buttonName || "Click Here",
-      buttonUrl: values.buttonUrl || "#",
+      logoUrl: values.logoUrl.trim() || "https://www.shutterstock.com/image-photo/light-blue-flower-on-white-600nw-2391760867.jpg",
+      bannerUrl: values.bannerUrl.trim() || "https://m.media-amazon.com/images/I/71tTon2ueNL.jpg",
+      companyName: values.companyName.trim() || "Company Name",
+      buttonName: values.buttonName.trim() || "Click Here",
+      buttonUrl: values.buttonUrl.trim() || "#",
       selectedColor: values.selectedColor || "#000",
       selectedbuttonColor: values.selectedbuttonColor || "#FFA500", // Orange as default
     };
-    ;
-
+  
     try {
       setLoading(true); // Set loading state before sending email
       await sendEmail(bannerData);
@@ -66,11 +111,11 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount,validateSingleM
       });
     } finally {
       setTimeout(() => {
-        setLoading(false); 
+        setLoading(false);
       }, 1000);
     }
   };
-
+  
   return (
     <>
       <section className="full_background">

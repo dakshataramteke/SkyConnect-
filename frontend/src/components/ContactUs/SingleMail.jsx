@@ -25,21 +25,22 @@ const SingleMail = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Validate the "to" field to ensure only one email is entered
-    // if (name === "to") {
-    //   if (value.includes(",")) {
-    //     setError("Please enter only one email address.");
-    //   } else {
-    //     setError(""); // Clear error if valid
-    //   }
-    // }
-
+  
+    if (name === "to") {
+      const emailList = value.split(",").map(email => email.trim()).filter(email => email);
+      if (emailList.length > 1) {
+        setError("Please enter only one email address.");
+      } else {
+        setError(""); // Clear the error if the input is valid
+      }
+    }
+  
     setValue((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+  
   const validateSingleMail = () => {
     const form = formRef.current;
     if (!form.checkValidity() || !value.message || error) {
@@ -58,9 +59,21 @@ const SingleMail = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     const form = formRef.current;
+  
 
+    const emailList = [value.to.trim()]; // Ensure only one email is processed
+
+    if (emailList.length !== 1) {
+      Swal.fire({
+        title: "Error",
+        text: "Please enter only one email address.",
+        icon: "error",
+      });
+      return;
+    }
+  
     if (form.checkValidity() === false || !value.message || error) {
       event.stopPropagation();
       Swal.fire({
@@ -73,12 +86,11 @@ const SingleMail = () => {
     } else {
       form.classList.remove("was-validated");
     }
-
-    // Call sendEmail after validation
+  
     sendEmail();
   };
-
-  const sendEmail = async () => {
+  
+  const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
     setProgress(0); // Reset progress
 
@@ -101,23 +113,34 @@ const SingleMail = () => {
       from: value.from,
       password: value.password,
       subject: value.subject,
-      htmlContent: `
-            <div style="width: 500px;margin:auto; background-color:whitesmoke">
-                <div style="background-color: orange; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
-                    <img src="logo_url" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />
-                </div>
-                <div style="text-align:center; color: black; ">
-                    <h3>${value.subject}</h3>
-                </div>
-                <div style="margin: 2rem 0; padding: 0 1.5rem;">  
-                    <div>${value.message}</div>
-                </div>
-                <div style=" margin: 1.5rem;">
-                    <p >Best regards,</p>
-                    <h5 style="color:#4358 f9; padding:0 0 1.5rem">SV Bulk Mailer</h5>
-                </div>
-            </div>
-            `,
+    htmlContent: `
+        <div style="width: 500px; margin: auto; background-color: whitesmoke">
+          <div style="background-color: ${bannerData.selectedColor}; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
+            <img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />
+          </div>
+          <div style="text-align: center; color: black;">
+            <h3>${bannerData.companyName}</h3>
+          </div>
+          <div style="text-align: center; margin-top: 1rem;">
+            <img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />
+          </div>
+          <div style="margin: 2rem 0; padding: 0 1.5rem;">  
+            <div>${value.message}</div>
+          </div>
+          <div style="text-align: center; margin-top: 3.5rem;">
+            <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
+              <button style="background-color: ${bannerData.selectedbuttonColor}; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
+                ${bannerData.buttonName}
+              </button>
+            </a>
+          </div>
+          <div style="margin: 1.5rem; ">
+            <p>Best regards,</p>
+            <h5 style="color: #4358f9; padding:0 0 1.5rem"">SV Bulk Mailer</h5>
+          </div>
+        </div>
+      `,
+
     };
 
     console.log(" Sending email with payload:", emailPayload); // Log the payload
@@ -163,6 +186,8 @@ const SingleMail = () => {
           subject: "",
           message: "",
         });
+        setSentCount(0); // Update sent count
+        setNotSentCount(0); // Update not sent count
       });
     } catch (err) {
       console.error("Error sending email:", err);
@@ -234,21 +259,7 @@ const SingleMail = () => {
                   </div>
                 </div>
 
-                {/* Show progress bar only when loading */}
-                {loading && (
-                  <div className="progress mb-3">
-                    <div
-                      className="progress-bar"
-                      role="progressbar"
-                      style={{ width: `${progress}%` }}
-                      aria-valuenow={progress}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    >
-                      {progress}%
-                    </div>
-                  </div>
-                )}
+               
               </form>
             </div>
           </div>
@@ -262,3 +273,5 @@ const SingleMail = () => {
 };
 
 export default SingleMail;
+
+
