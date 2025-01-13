@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
@@ -20,7 +18,7 @@ const Mail = ({ emails }) => {
     message: "",
   });
 
-    const [error, setError] = useState(""); 
+  const [error, setError] = useState(""); 
   const [sentCount, setSentCount] = useState(0); // Count of sent emails
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
   const [progress, setProgress] = useState(0); // Progress state

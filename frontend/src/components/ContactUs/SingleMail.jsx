@@ -258,8 +258,6 @@ const SingleMail = () => {
                     </div>
                   </div>
                 </div>
-
-               
               </form>
             </div>
           </div>
