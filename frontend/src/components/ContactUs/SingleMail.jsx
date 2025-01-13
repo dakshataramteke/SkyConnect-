@@ -90,6 +90,8 @@ const SingleMail = () => {
     sendEmail();
   };
   
+
+  
   const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
     setProgress(0); // Reset progress
@@ -108,6 +110,11 @@ const SingleMail = () => {
       return;
     }
 
+    if (value.message.trim() === '') {
+      setError('Please provide a message.');
+      return;
+    }
+   
     const emailPayload = {
       toList: emailList,
       from: value.from,
@@ -178,6 +185,7 @@ const SingleMail = () => {
         icon: "success",
       }).then(() => {
         formRef.current.classList.remove("was-validated");
+
         // Clear the form data
         setValue({
           to: "",
@@ -253,8 +261,12 @@ const SingleMail = () => {
                       <label htmlFor="message" className="form-label">
                         Message :<span style={{ color: "red" }}> *</span>
                       </label>
-                      <ReactQuill theme="snow" style={{ height: "100px", width: "100%" }} name="message" value={value.message} onChange={handleQuillChange} required />
-                      <div className="invalid-feedback">Please provide a message.</div>
+                      <ReactQuill theme="snow" style={{ height: "100px", width: "100%" }} name="message" value={value.message}
+                       onChange={handleQuillChange}  required />
+                      {/* <div className="invalid-feedback">Please provide a message.</div> */}
+                      {error && (
+                      <div className="invalid-feedback">{error}</div>
+                      )}
                     </div>
                   </div>
                 </div>

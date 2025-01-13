@@ -141,7 +141,6 @@ const Mail = ({ emails }) => {
         icon: "success",
       }).then(() => {
         formRef.current.classList.remove("was-validated");
-
         // Clear the form data
         setValue({
           to: "",
