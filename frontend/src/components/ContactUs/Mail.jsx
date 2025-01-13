@@ -84,7 +84,7 @@ const Mail = ({ emails }) => {
           <div style="margin: 2rem 0; padding: 0 1.5rem;">  
             <div>${value.message}</div>
           </div>
-          <div style="text-align: center; margin-top: 3.5rem;">
+          <div style="text-align: center; margin-top: 3rem;">
             <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
               <button style="background-color: ${bannerData.selectedbuttonColor}; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
                 ${bannerData.buttonName}
