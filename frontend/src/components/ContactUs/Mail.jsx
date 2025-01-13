@@ -20,6 +20,7 @@ const Mail = ({ emails }) => {
     message: "",
   });
 
+    const [error, setError] = useState(""); 
   const [sentCount, setSentCount] = useState(0); // Count of sent emails
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
   const [progress, setProgress] = useState(0); // Progress state
@@ -39,6 +40,14 @@ const Mail = ({ emails }) => {
       message: content,
     }));
   };
+  const validateSingleMail = () => {
+    const form = formRef.current;
+    if (!form.checkValidity() || !value.message || error) {
+      form.classList.add("was-validated");
+      return false;
+    }
+    return true;
+  }
 
   const sendEmail = async () => {
     setLoading(true); // Start loading
@@ -122,6 +131,8 @@ const Mail = ({ emails }) => {
         text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
         icon: "success",
       }).then(() => {
+        formRef.current.classList.remove("was-validated");
+
         // Clear the form data
         setValue({
           to: "",
@@ -273,6 +284,7 @@ const Mail = ({ emails }) => {
         sendEmail={sendEmail} 
         sentCount={sentCount} 
         notSentCount={notSentCount} 
+        validateSingleMail={validateSingleMail}
         progress={progress} 
       />
     </>

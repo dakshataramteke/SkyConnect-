@@ -27,18 +27,26 @@ const SingleMail = () => {
     const { name, value } = e.target;
 
     // Validate the "to" field to ensure only one email is entered
-    if (name === "to") {
-      if (value.includes(",")) {
-        setError("Please enter only one email address.");
-      } else {
-        setError(""); // Clear error if valid
-      }
-    }
+    // if (name === "to") {
+    //   if (value.includes(",")) {
+    //     setError("Please enter only one email address.");
+    //   } else {
+    //     setError(""); // Clear error if valid
+    //   }
+    // }
 
     setValue((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+  };
+  const validateSingleMail = () => {
+    const form = formRef.current;
+    if (!form.checkValidity() || !value.message || error) {
+      form.classList.add("was-validated");
+      return false;
+    }
+    return true;
   };
 
   const handleQuillChange = (content) => {
@@ -146,6 +154,7 @@ const SingleMail = () => {
         text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
         icon: "success",
       }).then(() => {
+        formRef.current.classList.remove("was-validated");
         // Clear the form data
         setValue({
           to: "",
@@ -245,7 +254,9 @@ const SingleMail = () => {
           </div>
         </div>
       </section>
-      <PreviewMail value={value} sendEmail={sendEmail} sentCount={sentCount} notSentCount={notSentCount} progress={progress} loading={loading} />
+      <PreviewMail value={value} sendEmail={sendEmail} sentCount={sentCount} notSentCount={notSentCount} 
+       validateSingleMail={validateSingleMail}
+      progress={progress} loading={loading} />
     </>
   );
 };
