@@ -18,12 +18,12 @@ const Mail = ({ emails }) => {
     message: "",
   });
 
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const [sentCount, setSentCount] = useState(0); // Count of sent emails
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
   const [progress, setProgress] = useState(0); // Progress state
   const [loading, setLoading] = useState(false); // Loading state for progress
-  const [editorHtml, setEditorHtml] = useState('');
+  const [editorHtml, setEditorHtml] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,113 +34,133 @@ const Mail = ({ emails }) => {
   };
   const handleQuillChange = (content, delta, source, editor) => {
     const htmlContent = editor.getHTML();
-  
+
     setEditorHtml(htmlContent);
     setValue((prevState) => ({
       ...prevState,
       message: htmlContent,
     }));
-  
+
     // Clear the error if the editor content is valid
-    if (htmlContent.trim() && htmlContent !== '<p><br></p>') {
+    if (htmlContent.trim() && htmlContent !== "<p><br></p>") {
       setError("");
     }
   };
-  
- 
+
   const validateSingleMail = () => {
     const form = formRef.current;
-  
+
     // Check for standard input validation
     const isFormValid = form.checkValidity();
-    const isQuillValid = editorHtml.trim() && editorHtml !== '<p><br></p>';
-  
+    const isQuillValid = editorHtml.trim() && editorHtml !== "<p><br></p>";
+
     // Apply was-validated class if needed
     if (!isFormValid || !isQuillValid) {
       form.classList.add("was-validated");
-  
+
       // Handle Quill validation
       if (!isQuillValid) {
         setError("The message field cannot be empty.");
       } else {
         setError(""); // Clear the error if Quill is valid
       }
-  
+
       return false;
     }
-  
+
     return true;
   };
-  
 
   const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
     setProgress(0); // Reset progress
-  
+
     // Split the "to" field by commas and trim whitespace
-    const emailList = value.to.split(",").map(email => email.trim()).filter(email => email);
+    const emailList = value.to
+      .split(",")
+      .map((email) => email.trim())
+      .filter((email) => email);
     const emailCount = emailList.length; // Count of emails to send
-  
-    
+
     const emailPayload = {
       toList: emailList,
       from: value.from,
       password: value.password,
       subject: value.subject,
       htmlContent: `
-        <div style="width: 500px; margin: auto; background-color: whitesmoke">
-          <div style="background-color: ${bannerData.selectedColor}; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
-            <img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />
-          </div>
-          <div style="text-align: center; color: black;">
-            <h3>${bannerData.companyName}</h3>
-          </div>
-          <div style="text-align: center; margin-top: 1rem;">
-            <img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />
-          </div>
-          <div style="margin: 2rem 0; padding: 0 1.5rem;">  
-            <div>${value.message}</div>
-          </div>
-          <div style="text-align: center; margin-top: 3rem;">
-            <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-              <button style="background-color: ${bannerData.selectedbuttonColor}; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
-                ${bannerData.buttonName}
-              </button>
-            </a>
-          </div>
-          <div style="margin: 1.5rem; ">
-            <p>Best regards,</p>
-            <h5 style="color: #4358f9; padding:0 0 1.5rem"">SV Bulk Mailer</h5>
-          </div>
-        </div>
-      `,
-
+  <div style="width: 500px; margin: auto; background-color: whitesmoke">
+    <div style="background-color: ${
+      bannerData.selectedColor ? bannerData.selectedColor : "white"
+    }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
+      ${
+        bannerData.logoUrl
+          ? `<img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />`
+          : `<span style="width:0; height:0"></span>`
+      }
+    </div>
+    <div style="text-align: center; color: black;">
+      <h3>${bannerData.companyName}</h3>
+    </div>
+    <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
+      ${
+        bannerData.bannerUrl
+          ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
+          : `<span></span>`
+      }
+    </div>
+    <div style="margin: 2rem 0; padding: 0 1.5rem;">  
+      <div>${value.message || "No message provided."}</div>
+    </div>
+    ${
+      bannerData.buttonName
+        ? `
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
+          <button style="background-color: ${
+            bannerData.selectedbuttonColor || "initial"
+          }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
+            ${bannerData.buttonName}
+          </button>
+        </a>
+      </div>
+    `
+        : ""
+    }
+    <div style="margin: 1.5rem;">
+      <p>Best regards,</p>
+      <h5 style="color: #4358f9; padding:0 0 1.5rem;">SV Bulk Mailer</h5>
+    </div>
+  </div>
+`,
     };
-  
+
     console.log("Sending email with payload:", emailPayload); // Log the payload
-  
+
     try {
       let deliveredCount = 0; // Count of successfully sent emails
       let undeliveredCount = 0; // Count of failed emails
-  
+
       // Regular expression for validating email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
       for (let i = 0; i < emailCount; i++) {
         const email = emailList[i];
-  
+
         // Validate email format
         if (!emailRegex.test(email)) {
           console.error("Invalid email format:", email);
           undeliveredCount++; // Increment undelivered count
           continue; // Skip sending this email
         }
-  
+
         try {
-          await axios.post("http://localhost:8080/contact", { ...emailPayload, toList: email });
+          await axios.post("http://localhost:8080/contact", {
+            ...emailPayload,
+            toList: email,
+          });
           deliveredCount++; // Increment delivered count
           setSentCount((prevCount) => prevCount + 1);
-          
+
           // Update progress based on the number of emails sent
           const progressPercentage = Math.round(((i + 1) / emailCount) * 100);
           setProgress(progressPercentage);
@@ -149,9 +169,9 @@ const Mail = ({ emails }) => {
           console.error("Error sending email to:", email, error);
         }
       }
-  
+
       setNotSentCount(undeliveredCount); // Update not sent count
-  
+
       Swal.fire({
         title: "Successfully",
         text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
@@ -201,11 +221,7 @@ const Mail = ({ emails }) => {
                 borderRadius: "0 0.625rem 0.625rem 0",
               }}
             >
-              <form
-                ref={formRef}
-                className="needs-validation"
-                noValidate
-              >
+              <form ref={formRef} className="needs-validation" noValidate>
                 <div className="row form_data">
                   <div className="col-12 col-md-11 ">
                     <div className="my-md-3 mb-3">
@@ -275,51 +291,52 @@ const Mail = ({ emails }) => {
                         name="subject"
                         value={value.subject}
                         onChange={handleChange}
-                        required />
+                        required
+                      />
                       <div className="invalid-feedback">
                         Please provide a subject.
                       </div>
                     </div>
 
                     <div className="mb-5">
-  <label htmlFor="message" className="form-label">
-    Message :<span style={{ color: "red" }}> *</span>
-  </label>
-  <ReactQuill
-    theme="snow"
-    style={{ height: "100px", width: "100%" }}
-    name="message"
-    value={value.message}
-    onChange={handleQuillChange}
-  />
-  {/* Show error message */}
-  {error && (
-    <div className="invalid-feedback" style={{ display: "block" }}>
-      {error}
-    </div>
-  )}
-</div>
-
+                      <label htmlFor="message" className="form-label">
+                        Message :<span style={{ color: "red" }}> *</span>
+                      </label>
+                      <ReactQuill
+                        theme="snow"
+                        style={{ height: "100px", width: "100%" }}
+                        name="message"
+                        value={value.message}
+                        onChange={handleQuillChange}
+                      />
+                      {/* Show error message */}
+                      {error && (
+                        <div
+                          className="invalid-feedback"
+                          style={{ display: "block" }}
+                        >
+                          {error}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
- 
               </form>
             </div>
           </div>
         </div>
       </section>
 
-      <PreviewMail 
-        value={value} 
-        sendEmail={sendEmail} 
-        sentCount={sentCount} 
-        notSentCount={notSentCount} 
+      <PreviewMail
+        value={value}
+        sendEmail={sendEmail}
+        sentCount={sentCount}
+        notSentCount={notSentCount}
         validateSingleMail={validateSingleMail}
-        progress={progress} 
+        progress={progress}
       />
     </>
   );
 };
 
 export default Mail;
-

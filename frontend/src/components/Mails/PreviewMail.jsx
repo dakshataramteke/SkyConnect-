@@ -10,8 +10,8 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     companyName: "",
     buttonName: "",
     buttonUrl: "",
-    selectedColor: "#000",
-    selectedbuttonColor: "#000",
+    selectedColor: "",
+    selectedbuttonColor: "",
   });
 
   const formRef = useRef(null);
