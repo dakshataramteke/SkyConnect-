@@ -23,6 +23,7 @@ const Mail = ({ emails }) => {
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
   const [progress, setProgress] = useState(0); // Progress state
   const [loading, setLoading] = useState(false); // Loading state for progress
+  const [editorHtml, setEditorHtml] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,21 +32,46 @@ const Mail = ({ emails }) => {
       [name]: value,
     }));
   };
-
-  const handleQuillChange = (content) => {
+  const handleQuillChange = (content, delta, source, editor) => {
+    const htmlContent = editor.getHTML();
+  
+    setEditorHtml(htmlContent);
     setValue((prevState) => ({
       ...prevState,
-      message: content,
+      message: htmlContent,
     }));
+  
+    // Clear the error if the editor content is valid
+    if (htmlContent.trim() && htmlContent !== '<p><br></p>') {
+      setError("");
+    }
   };
+  
+ 
   const validateSingleMail = () => {
     const form = formRef.current;
-    if (!form.checkValidity() || !value.message || error) {
+  
+    // Check for standard input validation
+    const isFormValid = form.checkValidity();
+    const isQuillValid = editorHtml.trim() && editorHtml !== '<p><br></p>';
+  
+    // Apply was-validated class if needed
+    if (!isFormValid || !isQuillValid) {
       form.classList.add("was-validated");
+  
+      // Handle Quill validation
+      if (!isQuillValid) {
+        setError("The message field cannot be empty.");
+      } else {
+        setError(""); // Clear the error if Quill is valid
+      }
+  
       return false;
     }
+  
     return true;
-  }
+  };
+  
 
   const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
@@ -55,16 +81,7 @@ const Mail = ({ emails }) => {
     const emailList = value.to.split(",").map(email => email.trim()).filter(email => email);
     const emailCount = emailList.length; // Count of emails to send
   
-    if (emailCount === 0) {
-      Swal.fire({
-        title: "Error",
-        text: "Please enter at least one valid email address.",
-        icon: "error",
-      });
-      setLoading(false);
-      return;
-    }
-  
+    
     const emailPayload = {
       toList: emailList,
       from: value.from,
@@ -265,21 +282,24 @@ const Mail = ({ emails }) => {
                     </div>
 
                     <div className="mb-5">
-                      <label htmlFor="message" className="form-label">
-                        Message :<span style={{ color: "red" }}> *</span>
-                      </label>
-                      <ReactQuill
-                        theme="snow"
-                        style={{ height: "100px", width: "100%" }}
-                        name="message"
-                        value={value.message}
-                        onChange={handleQuillChange}
-                        required
-                      />
-                      <div className="invalid-feedback">
-                        Please provide a message.
-                      </div>
-                    </div>
+  <label htmlFor="message" className="form-label">
+    Message :<span style={{ color: "red" }}> *</span>
+  </label>
+  <ReactQuill
+    theme="snow"
+    style={{ height: "100px", width: "100%" }}
+    name="message"
+    value={value.message}
+    onChange={handleQuillChange}
+  />
+  {/* Show error message */}
+  {error && (
+    <div className="invalid-feedback" style={{ display: "block" }}>
+      {error}
+    </div>
+  )}
+</div>
+
                   </div>
                 </div>
  

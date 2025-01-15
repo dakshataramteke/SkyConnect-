@@ -113,6 +113,19 @@ const Navbar = () => {
       Upgrade
     </NavLink>
   </li>
+
+  <li className="nav-item">
+    <NavLink
+      className="nav-link text-white"
+      to="/home/Contact"
+      style={({ isActive }) => ({
+        textDecoration: isActive ? 'underline' : 'none',
+        color: isActive ? 'black' : 'inherit',
+      })}
+    >
+     Contact
+    </NavLink>
+  </li>
 </ul>
             </div>
           </div>

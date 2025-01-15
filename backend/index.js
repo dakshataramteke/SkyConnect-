@@ -173,6 +173,25 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
   }
 };
 
+/*** 
+ *
+ *==== Contact Mails 
+ *  
+ ***/
+
+ app.get("/contactMails",(req,res)=>{
+  console.log("Received request for contactMails"); // Add this lin
+  const sql = `SELECT email, dates FROM excelsheetdata`;
+  console.log(sql);
+  connection.query(sql,(err,results)=>{
+    if(err){
+      console.error("Error executing query:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    // console.log("Results from database:", results);
+    res.json(results);
+  })
+ })
 
 /***
  * 
@@ -231,11 +250,8 @@ app.post("/contact", async (req, res) => {
  *
  ***/
 
-
 app.post('/save-emails', (req, res) => {
-  // console.log(req.body.email); 
-  console.log(req.body);
-  // console.log("Session before accessing emails:", req.session); 
+  // console.log(req.body);
   const emails = req.body.emails;
   const username = req.body.username; // Get the username from the request body
 
@@ -244,19 +260,23 @@ app.post('/save-emails', (req, res) => {
   }
 
   const emailString = emails.join(', ');
+  const currentDate = new Date(); // Get the current date and time
 
-  const sql = `INSERT INTO excelsheetdata (email, username) VALUES (?, ?)`;
-  connection.query(sql, [emailString, username], (error, results) => {
+  const sql = `INSERT INTO excelsheetdata (email, username, dates) VALUES (?, ?, ?)`;
+  connection.query(sql, [emailString, username, currentDate], (error, results) => {
     if (error) {
       console.error('Database error:', error);
       return res.status(500).send('Database error');
     }
     res.status(200).send('Emails inserted successfully');
-    console.log("All Email is Sent successfully")
+    console.log("All Email is Sent successfully");
   });
 });
 
-//Default Port 
+
+
+
+
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}`);
 })

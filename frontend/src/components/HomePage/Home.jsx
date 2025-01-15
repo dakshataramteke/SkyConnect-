@@ -1,5 +1,5 @@
 
-import SingleMail from '../ContactUs/SingleMail';
+import SingleMail from '../Mails/SingleMail';
 import './Home.css';
 
 const Home = () => {

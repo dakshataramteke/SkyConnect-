@@ -40,13 +40,13 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     }
 
     const bannerData = {
-      logoUrl: values.logoUrl.trim() || "https://www.shutterstock.com/image-photo/light-blue-flower-on-white-600nw-2391760867.jpg",
-      bannerUrl: values.bannerUrl.trim() || "https://m.media-amazon.com/images/I/71tTon2ueNL.jpg",
-      companyName: values.companyName.trim() || "Company Name",
-      buttonName: values.buttonName.trim() || "Click Here",
-      buttonUrl: values.buttonUrl.trim() || "#",
-      selectedColor: values.selectedColor || "#000",
-      selectedbuttonColor: values.selectedbuttonColor || "#FFA500",
+      logoUrl: values.logoUrl.trim() ,
+      bannerUrl: values.bannerUrl.trim() ,
+      companyName: values.companyName.trim(),
+      buttonName: values.buttonName.trim() ,
+      buttonUrl: values.buttonUrl.trim() ,
+      selectedColor: values.selectedColor ,
+      selectedbuttonColor: values.selectedbuttonColor ,
     };
 
     try {
@@ -303,3 +303,4 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 };
 
 export default PreviewMail;
+
