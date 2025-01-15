@@ -19,8 +19,8 @@ const ContactMail = () => {
     // Function to group emails into sets of five
     const groupEmails = (emails) => {
         const grouped = [];
-        for (let i = 0; i < emails.length; i += 5) {
-            grouped.push(emails.slice(i, i + 5));
+        for (let i = 0; i < emails.length; i ++) {
+            grouped.push(emails.slice(i));
         }
         return grouped;
     };
@@ -57,7 +57,7 @@ const ContactMail = () => {
                                                     ))}
                                                 </ul>
                                             </td>
-                                            <td>{data[groupIndex]?.dates}</td> {/* Assuming each group corresponds to a date */}
+                                            <td>{data[groupIndex]?.dates.split("").slice(0,10).join("")}</td> 
                                         </tr>
                                     ))}
                                 </tbody>
@@ -71,3 +71,4 @@ const ContactMail = () => {
 }
 
 export default ContactMail;
+
