@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -14,7 +13,7 @@ const ContactMail = () => {
         if (Array.isArray(fetchedData)) {
           const emailList = fetchedData.map((item) => {
             return {
-              emails: item.email.split(","), // Split emails into an array
+              emails: item.email.split(",").map((email) => email.trim()), // Split emails into an array and trim
               date: new Date(item.dates).toLocaleString("en-IN", {
                 timeZone: "Asia/Kolkata",
               }),
@@ -38,7 +37,7 @@ const ContactMail = () => {
             <ul className="list-group">
               <li className="list-group-item list-group-item-light">
                 <div className="row">
-                  <div className="col"></div>
+                  <div className="col">Select</div>
                   <div className="col">Email</div>
                   <div className="col">Date</div>
                 </div>
@@ -57,12 +56,8 @@ const ContactMail = () => {
                               />
                             </div>
                           </div>
-                          <div className="col">{email.trim()}</div>
-                          {emailIndex === 0 && (
-                            <div className="col" rowSpan={item.emails.length}>
-                              {item.date.split("").slice(0, 9).join("")}
-                            </div>
-                          )}
+                          <div className="col">{email}</div>
+                          <div className="col"> {item.date.split("").slice(0, 9).join("")}</div> {/* Display date with every email */}
                         </div>
                       </li>
                     ))
