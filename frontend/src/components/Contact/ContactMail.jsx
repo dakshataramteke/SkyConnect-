@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
+  const [selectedEmails, setSelectedEmails] = useState([]);
 
   useEffect(() => {
     axios
@@ -29,6 +31,18 @@ const ContactMail = () => {
       });
   }, []);
 
+  const handleCheckboxChange = (email) => {
+    setSelectedEmails((prevSelected) => {
+      if (prevSelected.includes(email)) {
+        // If email is already selected, remove it
+        return prevSelected.filter((selectedEmail) => selectedEmail !== email);
+      } else {
+        // If email is not selected, add it
+        return [...prevSelected, email];
+      }
+    });
+  };
+
   return (
     <section>
       <div className="container">
@@ -53,17 +67,41 @@ const ContactMail = () => {
                                 className="form-check-input"
                                 type="checkbox"
                                 id={`flexCheckDefault${index}-${emailIndex}`}
+                                onChange={() => handleCheckboxChange(email)}
+                                checked={selectedEmails.includes(email)}
                               />
                             </div>
                           </div>
                           <div className="col">{email}</div>
-                          <div className="col"> {item.date.split("").slice(0, 9).join("")}</div> {/* Display date with every email */}
+                          <div className="col">{item.date.split("").slice(0, 9).join("")}</div>
                         </div>
                       </li>
                     ))
-                  : null // Handle the case where item.emails is undefined or empty
+                  : null
               )}
             </ul>
+          </div>
+        </div>
+        <div className="row mt-5">
+          <div className="col">
+            <h5>Selected Emails</h5>
+            <ul className="list-group">
+              {selectedEmails.map((email, index) => (
+                <li key={index} className="list-group-item">
+                  {email}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4">
+                <button
+                  className="btn btn-primary"
+                  disabled={selectedEmails.length === 0}
+                  type="submit"
+                >
+                  Send Selected Emails
+                </button>
+  
+            </div>
           </div>
         </div>
       </div>
