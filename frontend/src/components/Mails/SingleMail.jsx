@@ -26,29 +26,14 @@ const SingleMail = () => {
   const formRef = useRef(null);
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      console.log("Fetching the Single Mail .....")
-      try {
-        const response = await axios.get('http://localhost:8080/newname', {
-          params: { name: response.data.name  }, // Example: Send a default name if needed
-        });
-        console.log('User name:', response.data.name);
-        setUserName(response.data.name); // Store the name in userName
-      } catch (error) {
-        if (error.response) {
-          console.error('Error fetching user name:', error.response.data);
-          console.error('Status code:', error.response.status);
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error:', error.message);
-        }
-      }
-    };
-  
-    fetchUserName(); // Call the async function
+    // Retrieve the user's name from local storage
+    const storedUserName = localStorage.getItem('Login User');
+    console.log("Store user name in singlemail : ",storedUserName);
+    if (storedUserName) {
+      setUserName(storedUserName); // Set the user's name in state
+      console.log("..... is set to " + storedUserName);
+    }
   }, []);
-  
   // Update both value and editorHtml
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -191,7 +176,7 @@ const SingleMail = () => {
         }
         <div style="margin: 1.5rem;">
           <p>Best regards,</p>
-          <h5 style="color: #4358f9; padding:0 0 1.5rem;">${userName }</h5> 
+          <h5 style="color: #4358f9; padding:0 0 1.5rem;">${userName}</h5> 
         </div>
       </div>
     `,

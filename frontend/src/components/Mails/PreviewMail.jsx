@@ -5,7 +5,7 @@ import { CLoadingButton } from "@coreui/react-pro";
 
 const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingleMail, progress }) => {
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState("");
+   const [userName, setUserName] = useState("");
   const [values, setValues] = useState({
     logoUrl: "",
     bannerUrl: "",
@@ -17,27 +17,13 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
   });
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      console.log("Fetch Preview Called ...");
-      try {
-        const response = await axios.get('http://localhost:8080/newname', {
-          params: {name: response.data.name  }, // Example: Send a default name if needed
-        });
-        console.log('User name:', response.data.name);
-        setUserName(response.data.name); // Store the name in userName
-      } catch (error) {
-        if (error.response) {
-          console.error('Error fetching user name:', error.response.data);
-          console.error('Status code:', error.response.status);
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        } else {
-          console.error('Error:', error.message);
-        }
-      }
-    };
-  
-    fetchUserName(); // Call the async function
+    // Retrieve the user's name from local storage
+    const storedUserName = localStorage.getItem('Login User');
+    console.log("Store user name in singlemail : ",storedUserName);
+    if (storedUserName) {
+      setUserName(storedUserName); // Set the user's name in state
+      console.log("..... is set to " + storedUserName);
+    }
   }, []);
   
 

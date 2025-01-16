@@ -4,6 +4,14 @@
 }
 /* For Input Field  */
 .form-check-input {
-    border: var(--bs-border-width) solid #2664af;
+    border: 2px solid #2664af;
     background-color: rgb(247, 246, 246)
+}
+.contact_body{
+    padding: 0.25rem ;
+    /* text-align: center; */
+}
+.contact_body .col{
+    padding: 0.175rem;
+    /* text-align: center; */
 }

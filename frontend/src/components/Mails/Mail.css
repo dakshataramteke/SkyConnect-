@@ -225,11 +225,7 @@ input[type="color"] {
 
 /* Best Regard  */
 
-.best_regards p,
-.best_regards h6{
-  margin: 0;
-  padding: 0;
-}
+
 .best_regards h6{
   color: var(--primary);
 }
