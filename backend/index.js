@@ -194,9 +194,8 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
  ***/
 
  app.get("/contactMails",(req,res)=>{
-  console.log("Received request for contactMails"); // Add this lin
+  // console.log("Received request for contactMails"); // Add this lin
   const sql = `SELECT email, dates FROM excelsheetdata`;
-  console.log(sql);
   connection.query(sql,(err,results)=>{
     if(err){
       console.error("Error executing query:", err);
@@ -294,7 +293,7 @@ app.post('/save-emails', (req, res) => {
       return res.status(500).send('Database error');
     }
     res.status(200).send('Valid emails inserted successfully');
-    console.log("Valid emails inserted successfully:", validEmails);
+    // console.log("Valid emails inserted successfully:", validEmails);
   });
 });
 
@@ -303,32 +302,13 @@ app.post('/save-emails', (req, res) => {
  * ====  For Username =====
  * 
  **/
+
 app.get('/username', (req, res) => {
-  const userEmail = req.session.userEmail;
-  console.log("User Email from session:", userEmail); // Log the user email
+  const username = req.query.name;
+  console.log("User Email from session:", username); // Log the user email
 
-  if (!userEmail) {
-    return res.status(400).send("User  email not found in session");
-  }
 
-  const sql = `SELECT name FROM registration WHERE email = ?`;
-  console.log("Executing SQL:", sql, "with email:", userEmail); // Log the SQL query
-
-  connection.query(sql, [userEmail], (err, results) => {
-    if (err) {
-      console.error("Error executing query:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-
-    if (results.length > 0) {
-      res.json({ name: results[0].name });
-    } else {
-      res.status(404).send("User  not found");
-    }
-  });
 });
-
-
 
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}`);
