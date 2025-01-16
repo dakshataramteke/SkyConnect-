@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Mail from '../Mails/Mail.jsx';
+import './ContactMail.css';
 
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
@@ -51,16 +52,17 @@ const ContactMail = () => {
   };
 
   return (
-    <section className="full_background">
+    <section className="full_background contact_maildata">
       <div className="container ">
         <div className="row mt-5">
           <div className="col mt-5">
+          <h2 className="text-center">All Emails</h2>
             <ul className="list-group">
               <li className="list-group-item list-group-item-light">
                 <div className="row">
-                  <div className="col">Select</div>
-                  <div className="col">Email</div>
-                  <div className="col">Date</div>
+                  <div className="col"> <b>Select</b></div>
+                  <div className="col"> <b>Email</b></div>
+                  <div className="col"><b> Date </b></div>
                 </div>
               </li>
               {emails.map((item, index) =>
