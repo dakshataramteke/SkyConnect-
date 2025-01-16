@@ -88,50 +88,50 @@ const Mail = ({ emails }) => {
       password: value.password,
       subject: value.subject,
       htmlContent: `
-  <div style="width: 500px; margin: auto; background-color: whitesmoke">
-    <div style="background-color: ${
-      bannerData.selectedColor ? bannerData.selectedColor : "white"
-    }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
-      ${
-        bannerData.logoUrl
-          ? `<img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />`
-          : `<span style="width:0; height:0"></span>`
-      }
-    </div>
-    <div style="text-align: center; color: black;">
-      <h3>${bannerData.companyName}</h3>
-    </div>
-    <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
-      ${
-        bannerData.bannerUrl
-          ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
-          : `<span></span>`
-      }
-    </div>
-    <div style="margin: 2rem 0; padding: 0 1.5rem;">  
-      <div>${value.message || "No message provided."}</div>
-    </div>
-    ${
-      bannerData.buttonName
-        ? `
-      <div style="text-align: center; margin-top: 3rem;">
-        <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
-          <button style="background-color: ${
-            bannerData.selectedbuttonColor || "initial"
-          }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
-            ${bannerData.buttonName}
-          </button>
-        </a>
+      <div style="width: 500px; margin: auto; background-color: whitesmoke">
+        <div style="background-color: ${
+          bannerData.selectedColor ? bannerData.selectedColor : "white"
+        }; border-radius: 0.5rem 0.5rem 0 0; padding: 0.25rem 1rem;">
+          ${
+            bannerData.logoUrl
+              ? `<img src="${bannerData.logoUrl}" alt="Company Logo" style="width: 53px; height: 53px; border-radius: 50%;" />`
+              : `<span style="width:0; height:0"></span>`
+          }
+        </div>
+        <div style="text-align: center; color: black;">
+          <h3>${bannerData.companyName}</h3>
+        </div>
+        <div style="text-align: center; margin-top: 1rem; display:flex; justify-content:center">
+          ${
+            bannerData.bannerUrl
+              ? `<img src="${bannerData.bannerUrl}" alt="Banner" style="width: 90%; height: auto; border-radius: 0.325rem;" />`
+              : `<span></span>`
+          }
+        </div>
+        <div style="margin: 2rem 0; padding: 0 1.5rem;">  
+          <div>${value.message || "No message provided."}</div>
+        </div>
+        ${
+          bannerData.buttonName
+            ? `
+          <div style="text-align: center; margin-top: 3rem;">
+            <a href="${bannerData.buttonUrl}" style="text-decoration: none;">
+              <button style="background-color: ${
+                bannerData.selectedbuttonColor || "initial"
+              }; color: white; border: none; border-radius: 1.25rem; padding: 0.75rem 1.5rem; cursor: pointer; font-weight: bold;">
+                ${bannerData.buttonName}
+              </button>
+            </a>
+          </div>
+        `
+            : ""
+        }
+        <div style="margin: 1.5rem;">
+          <p>Best regards,</p>
+          <h5 style="color: #4358f9; padding:0 0 1.5rem;">SV Bulk Mailer</h5>
+        </div>
       </div>
-    `
-        : ""
-    }
-    <div style="margin: 1.5rem;">
-      <p>Best regards,</p>
-      <h5 style="color: #4358f9; padding:0 0 1.5rem;">SV Bulk Mailer</h5>
-    </div>
-  </div>
-`,
+    `,
     };
 
     console.log("Sending email with payload:", emailPayload); // Log the payload

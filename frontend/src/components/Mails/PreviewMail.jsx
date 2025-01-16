@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { CLoadingButton } from "@coreui/react-pro";
 
 const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingleMail, progress }) => {
   const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState("");
   const [values, setValues] = useState({
     logoUrl: "",
     bannerUrl: "",
@@ -13,6 +15,29 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
     selectedColor: "",
     selectedbuttonColor: "",
   });
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await axios.get('/username'); // Use await here
+        console.log('User  name:', response.data.name);
+      } catch (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          console.error('Error fetching user name:', error.response.data);
+          console.error('Status code:', error.response.status);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error('No response received:', error.request);
+        } else {
+          // Something happened in setting up the request
+          console.error('Error:', error.message);
+        }
+      }
+    };
+
+    fetchUserName(); // Call the async function
+  }, []);
 
   const formRef = useRef(null);
 
@@ -48,6 +73,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
       selectedColor: values.selectedColor ,
       selectedbuttonColor: values.selectedbuttonColor ,
     };
+
 
     try {
       setLoading(true); // Set loading state before sending email
@@ -291,7 +317,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                   style={{ marginTop: "2rem", textAlign: "start" }}
                 >
                   <p>Best regards,</p>
-                  <h6>SV Bulk Mailer</h6>
+                  <h6>{userName || ""}</h6>
                 </div>
               </div>
             </div>
@@ -303,4 +329,5 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 };
 
 export default PreviewMail;
+
 

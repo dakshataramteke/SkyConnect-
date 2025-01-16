@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect  } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -20,10 +20,24 @@ const SingleMail = () => {
   const [notSentCount, setNotSentCount] = useState(0); 
   const [sentCount, setSentCount] = useState(0); 
   const [progress, setProgress] = useState(0); 
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false); 
   const [editorHtml, setEditorHtml] = useState('');
   const formRef = useRef(null);
 
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/username", { withCredentials: true });
+        setUserName(response.data.name); // Set the userName here
+      } catch (error) {
+        console.error("Error fetching user name:", error.response?.data || error.message);
+      }
+    };
+
+    fetchUserName();
+  }, []);
+  
   // Update both value and editorHtml
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +113,7 @@ const SingleMail = () => {
   const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
     setProgress(0); // Reset progress
+  
 
     const emailList = value.to.split(",").map(email => email.trim()).filter(email => email);
     const emailCount = emailList.length;
@@ -124,7 +139,7 @@ const SingleMail = () => {
       from: value.from,
       password: value.password,
       subject: value.subject,
-      htmlContent: `
+    htmlContent: `
       <div style="width: 500px; margin: auto; background-color: whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
@@ -165,10 +180,11 @@ const SingleMail = () => {
         }
         <div style="margin: 1.5rem;">
           <p>Best regards,</p>
-          <h5 style="color: #4358f9; padding:0 0 1.5rem;">SV Bulk Mailer</h5>
+          <h5 style="color: #4358f9; padding:0 0 1.5rem;">${userName }</h5> 
         </div>
       </div>
     `,
+
     };
 
     console.log("Sending email with payload:", emailPayload);
