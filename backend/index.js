@@ -24,13 +24,16 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 }); 
 app.use(session({
-  secret: "skyconnect",
-  resave: false,
+  secret: "skyconnect@25",
+  // resave: false,
+  resave: true,
   saveUninitialized: true,
+  sameSite: 'lax' ,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 
   }
 }));
+
 
 // === END MIDDLEWARE === //
 
@@ -115,9 +118,15 @@ app.post('/login', (req, res) => {
 
       // Store email in session
       req.session.userEmail = user.email;
-      // console.log("Session after login:", req.session); // Log the entire session
-      // console.log("Login Page",req.session.userEmail);
-      return res.status(200).send("Logged in successfully");
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.status(500).send("Internal Server Error");
+        }
+        return res.status(200).send("Logged in successfully");
+      });
+      // console.log("Login page session userEmail: " + req.session.userEmail);
+      // return res.status(200).send("Logged in successfully");
     });
   });
 });
@@ -193,6 +202,7 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
   })
  })
 
+
 /***
  * 
  =======  SINGLE MAIL =========
@@ -250,8 +260,31 @@ app.post("/contact", async (req, res) => {
  *
  ***/
 
+// app.post('/save-emails', (req, res) => {
+//   // console.log(req.body);
+//   const emails = req.body.emails;
+//   const username = req.body.username; // Get the username from the request body
+
+//   if (!Array.isArray(emails)) {
+//     return res.status(400).send('Invalid input: emails should be an array');
+//   }
+
+//   const emailString = emails.join(', ');
+//   const currentDate = new Date(); // Get the current date and time
+
+//   const sql = `INSERT INTO excelsheetdata (email, username, dates) VALUES (?, ?, ?)`;
+//   connection.query(sql, [emailString, username, currentDate], (error, results) => {
+//     if (error) {
+//       console.error('Database error:', error);
+//       return res.status(500).send('Database error');
+//     }
+//     res.status(200).send('Emails inserted successfully');
+//     console.log("All Email is Sent successfully");
+//   });
+// });
+
+
 app.post('/save-emails', (req, res) => {
-  // console.log(req.body);
   const emails = req.body.emails;
   const username = req.body.username; // Get the username from the request body
 
@@ -259,7 +292,17 @@ app.post('/save-emails', (req, res) => {
     return res.status(400).send('Invalid input: emails should be an array');
   }
 
-  const emailString = emails.join(', ');
+  // Regular expression to validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Filter out valid emails
+  const validEmails = emails.filter((email) => emailRegex.test(email.trim()));
+
+  if (validEmails.length === 0) {
+    return res.status(400).send('No valid emails to store');
+  }
+
+  const emailString = validEmails.join(', ');
   const currentDate = new Date(); // Get the current date and time
 
   const sql = `INSERT INTO excelsheetdata (email, username, dates) VALUES (?, ?, ?)`;
@@ -268,12 +311,35 @@ app.post('/save-emails', (req, res) => {
       console.error('Database error:', error);
       return res.status(500).send('Database error');
     }
-    res.status(200).send('Emails inserted successfully');
-    console.log("All Email is Sent successfully");
+    res.status(200).send('Valid emails inserted successfully');
+    console.log("Valid emails inserted successfully:", validEmails);
   });
 });
 
+app.get('/username', (req, res) => {
+  const userEmail = req.session.userEmail;
+  console.log("User Email from session:", userEmail); // Log the user email
 
+  if (!userEmail) {
+    return res.status(400).send("User  email not found in session");
+  }
+
+  const sql = `SELECT name FROM registration WHERE email = ?`;
+  console.log("Executing SQL:", sql, "with email:", userEmail); // Log the SQL query
+
+  connection.query(sql, [userEmail], (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    if (results.length > 0) {
+      res.json({ name: results[0].name });
+    } else {
+      res.status(404).send("User  not found");
+    }
+  });
+});
 
 
 
