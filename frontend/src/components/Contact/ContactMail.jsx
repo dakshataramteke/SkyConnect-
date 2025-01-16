@@ -1,10 +1,12 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Mail from '../Mails/Mail.jsx';
 
 const ContactMail = () => {
   const [emails, setEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
+  const [toEmails, setToEmails] = useState([]);
+  const [showMail, setShowMail] = useState(false);
 
   useEffect(() => {
     axios
@@ -43,9 +45,14 @@ const ContactMail = () => {
     });
   };
 
+  const handleSubmit = () => {
+    setToEmails(selectedEmails); // Set the selected emails to `toEmails`
+    setShowMail(true); // Show the Mail component
+  };
+
   return (
-    <section>
-      <div className="container">
+    <section className="full_background">
+      <div className="container ">
         <div className="row mt-5">
           <div className="col mt-5">
             <ul className="list-group">
@@ -82,7 +89,7 @@ const ContactMail = () => {
             </ul>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row my-3">
           <div className="col">
             <h5>Selected Emails</h5>
             <ul className="list-group">
@@ -92,21 +99,23 @@ const ContactMail = () => {
                 </li>
               ))}
             </ul>
-            <div className="mt-4">
-                <button
-                  className="btn btn-primary"
-                  disabled={selectedEmails.length === 0}
-                  type="submit"
-                >
-                  Send Selected Emails
-                </button>
-  
+            <div className="my-3">
+              <button
+                className="btn btn-primary"
+                disabled={selectedEmails.length === 0}
+                type="button"
+                onClick={handleSubmit}
+              >
+                Send Selected Emails
+              </button>
             </div>
           </div>
         </div>
       </div>
+      {showMail && <Mail emails={toEmails} />} {/* Pass toEmails to the Mail component */}
     </section>
   );
 };
+
 
 export default ContactMail;

@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
+// import ContactMail from "../Contact/ContactMail";
 import { useLocation } from "react-router-dom"; // Import useLocation
 import "./Mail.css";
 
