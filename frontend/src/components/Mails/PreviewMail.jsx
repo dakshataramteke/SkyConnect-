@@ -18,26 +18,28 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
   useEffect(() => {
     const fetchUserName = async () => {
+      console.log("Fetch Preview Called ...");
       try {
-        const response = await axios.get('/username'); // Use await here
-        console.log('User  name:', response.data.name);
+        const response = await axios.get('http://localhost:8080/newname', {
+          params: {name: response.data.name  }, // Example: Send a default name if needed
+        });
+        console.log('User name:', response.data.name);
+        setUserName(response.data.name); // Store the name in userName
       } catch (error) {
         if (error.response) {
-          // The request was made and the server responded with a status code
           console.error('Error fetching user name:', error.response.data);
           console.error('Status code:', error.response.status);
         } else if (error.request) {
-          // The request was made but no response was received
           console.error('No response received:', error.request);
         } else {
-          // Something happened in setting up the request
           console.error('Error:', error.message);
         }
       }
     };
-
+  
     fetchUserName(); // Call the async function
   }, []);
+  
 
   const formRef = useRef(null);
 
@@ -317,7 +319,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                   style={{ marginTop: "2rem", textAlign: "start" }}
                 >
                   <p>Best regards,</p>
-                  <h6>{userName || ""}</h6>
+                  <h6>{userName}</h6>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ const ContactMail = () => {
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [toEmails, setToEmails] = useState([]);
   const [showMail, setShowMail] = useState(false);
+  const [selectAll, setSelectAll] = useState(false); // New state for Select All
 
   useEffect(() => {
     axios
@@ -46,6 +47,18 @@ const ContactMail = () => {
     });
   };
 
+  const handleSelectAllChange = () => {
+    if (selectAll) {
+      // If all are selected, deselect all
+      setSelectedEmails([]);
+    } else {
+      // If not all are selected, select all
+      const allEmails = emails.flatMap(item => item.emails);
+      setSelectedEmails(allEmails);
+    }
+    setSelectAll(!selectAll); // Toggle selectAll state
+  };
+
   const handleSubmit = () => {
     setToEmails(selectedEmails); // Set the selected emails to `toEmails`
     setShowMail(true); // Show the Mail component
@@ -56,13 +69,26 @@ const ContactMail = () => {
       <div className="container ">
         <div className="row mt-5">
           <div className="col mt-5">
-          <h2 className="text-center">All Emails</h2>
+            <h2 className="text-center">All Emails</h2>
             <ul className="list-group">
               <li className="list-group-item list-group-item-light">
                 <div className="row">
-                  <div className="col"> <b>Select</b></div>
-                  <div className="col"> <b>Email</b></div>
-                  <div className="col"><b> Date </b></div>
+                  <div className="col">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="selectAllCheckbox"
+                        onChange={handleSelectAllChange}
+                        checked={selectAll}
+                      />
+                      <label className="form-check-label" htmlFor="selectAllCheckbox">
+                        <b>Select All</b>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col"><b>Email</b></div>
+                  <div className="col"><b>Date</b></div>
                 </div>
               </li>
               {emails.map((item, index) =>
@@ -82,7 +108,7 @@ const ContactMail = () => {
                             </div>
                           </div>
                           <div className="col">{email}</div>
-                          <div className="col">{item.date.split("").slice(0, 9).join("")}</div>
+                          <div className ="col">{item.date.split("").slice (0, 9).join("")}</div>
                         </div>
                       </li>
                     ))
@@ -92,19 +118,28 @@ const ContactMail = () => {
           </div>
         </div>
         <div className="row my-3">
-          <div className="col">
-            <h5>Selected Emails</h5>
-            <ul className="list-group">
-              {selectedEmails.map((email, index) => (
-                <li key={index} className="list-group-item">
-                  {email}
-                </li>
-              ))}
-            </ul>
-            <div className="my-3">
+          <div className="col-12 py-3">
+            <h4 className="text-center">Selected Emails</h4>
+            <div className="list-group">
+
+              <textarea
+                value={selectedEmails.join(", ")} // Update to show selected emails
+                onChange={(e) => setSelectedEmails(e.target.value.split(",").map(email => email.trim()))} // Update selected emails on change
+                className="form-control"
+                rows="6"
+                style={{
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  fontWeight: "bold",
+                  backgroundColor: '#e8eff7'
+                }}
+              />
+
+            </div>
+            <div className="py-4 d-flex justify-content-center">
               <button
                 className="btn btn-primary"
-                disabled={selectedEmails.length === 0}
+                disabled={selectedEmails.length === 0} // Disable if no selected emails
                 type="button"
                 onClick={handleSubmit}
               >
@@ -118,6 +153,5 @@ const ContactMail = () => {
     </section>
   );
 };
-
 
 export default ContactMail;

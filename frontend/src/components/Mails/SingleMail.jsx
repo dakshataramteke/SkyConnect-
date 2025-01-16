@@ -27,15 +27,26 @@ const SingleMail = () => {
 
   useEffect(() => {
     const fetchUserName = async () => {
+      console.log("Fetching the Single Mail .....")
       try {
-        const response = await axios.get("http://localhost:8080/username", { withCredentials: true });
-        setUserName(response.data.name); // Set the userName here
+        const response = await axios.get('http://localhost:8080/newname', {
+          params: { name: response.data.name  }, // Example: Send a default name if needed
+        });
+        console.log('User name:', response.data.name);
+        setUserName(response.data.name); // Store the name in userName
       } catch (error) {
-        console.error("Error fetching user name:", error.response?.data || error.message);
+        if (error.response) {
+          console.error('Error fetching user name:', error.response.data);
+          console.error('Status code:', error.response.status);
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+        } else {
+          console.error('Error:', error.message);
+        }
       }
     };
-
-    fetchUserName();
+  
+    fetchUserName(); // Call the async function
   }, []);
   
   // Update both value and editorHtml

@@ -1,6 +1,6 @@
 .contact_maildata{
     background-color: #c7e7f7;
-    height: calc(100vh - 3rem);
+    min-height: calc(100vh - 2.5rem);
 }
 /* For Input Field  */
 .form-check-input {
