@@ -83,7 +83,6 @@ app.post('/signup', async (req, res) => {
 
 // Login Page 
 
-
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -123,13 +122,19 @@ app.post('/login', (req, res) => {
           console.error("Session save error:", err);
           return res.status(500).send("Internal Server Error");
         }
-        return res.status(200).send("Logged in successfully");
+
+        // Send name in response
+        const response = {
+          message: "Logged in successfully",
+          name: user.name, // Assuming 'name' is the field in your database
+        };
+
+        return res.status(200).json(response);
       });
-      // console.log("Login page session userEmail: " + req.session.userEmail);
-      // return res.status(200).send("Logged in successfully");
     });
   });
 });
+
 
 
 /*** 
@@ -260,29 +265,6 @@ app.post("/contact", async (req, res) => {
  *
  ***/
 
-// app.post('/save-emails', (req, res) => {
-//   // console.log(req.body);
-//   const emails = req.body.emails;
-//   const username = req.body.username; // Get the username from the request body
-
-//   if (!Array.isArray(emails)) {
-//     return res.status(400).send('Invalid input: emails should be an array');
-//   }
-
-//   const emailString = emails.join(', ');
-//   const currentDate = new Date(); // Get the current date and time
-
-//   const sql = `INSERT INTO excelsheetdata (email, username, dates) VALUES (?, ?, ?)`;
-//   connection.query(sql, [emailString, username, currentDate], (error, results) => {
-//     if (error) {
-//       console.error('Database error:', error);
-//       return res.status(500).send('Database error');
-//     }
-//     res.status(200).send('Emails inserted successfully');
-//     console.log("All Email is Sent successfully");
-//   });
-// });
-
 
 app.post('/save-emails', (req, res) => {
   const emails = req.body.emails;
@@ -316,6 +298,11 @@ app.post('/save-emails', (req, res) => {
   });
 });
 
+/**
+ * 
+ * ====  For Username =====
+ * 
+ **/
 app.get('/username', (req, res) => {
   const userEmail = req.session.userEmail;
   console.log("User Email from session:", userEmail); // Log the user email
