@@ -84,8 +84,9 @@ const ContactMail = () => {
     <section className="full_background contact_maildata">
       <div className="container ">
         <div className="row mt-5">
-          <div className="col mt-5">
+          <div className="col mt-3 mt-md-5">
             <h2 className="text-center">All Emails</h2>
+            <h5 className="text-center fw-normal py-2">This feature is designed to streamline the management of email communications.</h5>
             <ul className="list-group">
               <li className="list-group-item list-group-item-light">
                 <div className="row contact_body">
@@ -190,6 +191,7 @@ const ContactMail = () => {
               </>
             )}
           </div>
+
         </div>
       </div>
       {showMail && <Mail emails={toEmails} />}
@@ -198,4 +200,3 @@ const ContactMail = () => {
 };
 
 export default ContactMail;
-

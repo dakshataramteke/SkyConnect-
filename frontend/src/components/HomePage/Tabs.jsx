@@ -44,10 +44,10 @@ const Tabs = () => {
       <section className="homesection_wrapper">
       <div className="container">
         <div className="row">
-        {/* <div className="col-md-1"></div> */}
+        
           <div className="offset-md-1 col-12 col-md-5 d-flex justify-content-center align-items-center p-3">
           <ul className="nav nav-pills">
-            <li className="nav-item">
+            <li className="nav-item mt-3 mt-md-0">
               <a
                 className={` nav-link ${activeTab === "SingleMail" ? "active" : ""}`}
                 onClick={handleSingleMailClick}

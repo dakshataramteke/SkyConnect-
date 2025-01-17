@@ -2,22 +2,23 @@
     background-color: #c7e7f7;
     min-height: calc(100vh - 2.5rem);
 }
-/* For Input Field  */
+
 .form-check-input {
-    border: 2px solid #2664af;
-    background-color: rgb(224, 244, 247);
+    border: 2px solid #050505;
     margin: 0;
 }
 .list-group-item-light{
-    /* padding: 0.25rem ; */
-    background-color: #bed8fe;
-    color: black;
-
+    background-color: #0064ff;
+    color: white !important;;
 }
-
-
-/* List of Groups   */
 .list-group-item{
-    border: 2px solid #2664af;
+    /* border: 2px solid #2664af; */
     padding: 0.875rem auto !important;
+    padding: 0.925rem !important;
 }
+.contact_maildata li:nth-child(even){
+    background-color: #eaf4f9;
+}
+
+
+
