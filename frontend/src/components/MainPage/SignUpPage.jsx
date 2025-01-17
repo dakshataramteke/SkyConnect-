@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2'
 
@@ -27,6 +27,7 @@ const SignUpPage = () => {
           text: "Your Form is Submitted!",
           icon: "success"
         });
+
         setValues({
           name: "",
           email: "",

@@ -5,13 +5,19 @@
 /* For Input Field  */
 .form-check-input {
     border: 2px solid #2664af;
-    background-color: rgb(247, 246, 246)
+    background-color: rgb(224, 244, 247);
+    margin: 0;
 }
-.contact_body{
-    padding: 0.25rem ;
-    /* text-align: center; */
+.list-group-item-light{
+    /* padding: 0.25rem ; */
+    background-color: #bed8fe;
+    color: black;
+
 }
-.contact_body .col{
-    padding: 0.175rem;
-    /* text-align: center; */
+
+
+/* List of Groups   */
+.list-group-item{
+    border: 2px solid #2664af;
+    padding: 0.875rem auto !important;
 }
