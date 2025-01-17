@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -23,9 +23,20 @@ const Mail = ({ emails }) => {
   const [sentCount, setSentCount] = useState(0); // Count of sent emails
   const [notSentCount, setNotSentCount] = useState(0); // Count of not sent emails
   const [progress, setProgress] = useState(0); // Progress state
+  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false); // Loading state for progress
   const [editorHtml, setEditorHtml] = useState("");
 
+
+   useEffect(() => {
+      // Retrieve the user's name from local storage
+      const storedUserName = localStorage.getItem('Login User');
+      console.log("Store user name in singlemail : ",storedUserName);
+      if (storedUserName) {
+        setUserName(storedUserName); // Set the user's name in state
+        console.log("..... is set to " + storedUserName);
+      }
+    }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
@@ -129,7 +140,7 @@ const Mail = ({ emails }) => {
         }
         <div style="margin: 1.5rem;">
           <p>Best regards,</p>
-          <h5 style="color: #4358f9; padding:0 0 1.5rem;">SV Bulk Mailer</h5>
+          <h5 style="color: #4358f9; padding:0 0 1.5rem;">${userName}</h5>
         </div>
       </div>
     `,

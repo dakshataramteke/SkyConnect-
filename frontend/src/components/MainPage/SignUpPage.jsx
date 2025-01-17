@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Link} from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const SignUpPage = () => {
   const [values, setValues] = useState({
@@ -14,20 +14,23 @@ const SignUpPage = () => {
     city: "",
   });
 
+  const [redirect, setRedirect] = useState(false); // State to control redirection
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   const SubmitData = (e) => {
     e.preventDefault();
     console.log(values);
     axios.post('http://localhost:8080/signup', values)
       .then(res => {
         Swal.fire({
-          title: "Successfull!",
+          title: "Successful!",
           text: "Your Form is Submitted!",
           icon: "success"
         });
-
+        setRedirect(true); // Set redirect to true
         setValues({
           name: "",
           email: "",
@@ -35,7 +38,7 @@ const SignUpPage = () => {
           password: "",
           username: "",
           city: "",
-        })
+        });
       })
       .catch(err => {
         console.log(err);
@@ -46,6 +49,12 @@ const SignUpPage = () => {
         });
       });
   };
+
+  // Redirect to login page if redirect is true
+  if (redirect) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <>
       <section className="signup_wrapper">
@@ -55,7 +64,6 @@ const SignUpPage = () => {
             <div className="col-12 col-md-6 col-lg-6 py-md-4 signup_righsidebar">
               <h2 className="text-center">Registration</h2>
               <p className="text-center mb-4">
-                {" "}
                 Take a minute and fill the Details to Register
               </p>
               <form onSubmit={SubmitData}>
@@ -71,7 +79,7 @@ const SignUpPage = () => {
                     placeholder="Enter your name"
                     aria-describedby="full_name"
                     value={values.name}
-                    onChange={handleChange} // ""line
+                    onChange={handleChange}
                     required
                   />
                 </div>
@@ -133,7 +141,7 @@ const SignUpPage = () => {
                     className="form-control"
                     id="username"
                     name="username"
-                    placeholder=" Username"
+                    placeholder="Username"
                     aria-describedby="username"
                     value={values.username}
                     onChange={handleChange}
@@ -164,7 +172,7 @@ const SignUpPage = () => {
                 </div>
                 <div className="mt-3 text-center">
                   <p>
-                    Already have an login here ? <Link to="/" className="fw-bold">Log In</Link>
+                    Already have an account? <Link to="/" className="fw-bold">Log In</Link>
                   </p>
                 </div>
               </form>
