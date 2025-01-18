@@ -126,7 +126,7 @@ const ContactMail = () => {
   };
 
   return (
-    <section className="full_background contact_maildata">
+    <section className="contact_maildata">
       <div className="container ">
         <div className="row mt-5">
           <div className="col mt-3 mt-md-4 contact_alldata">
@@ -135,9 +135,8 @@ const ContactMail = () => {
               This feature is designed to streamline the management of email communications.
             </p>
             <ul className="list-group ">
-              <li className="list-group-item list-group-item-light">
-                <div className="row contact_body">
-
+              <li className="list-group-item list-group-item-light"  style={{backgroundColor: '#cfe4fa'}}>
+                <div className="row">
                   <div className="form-check">
                       <input
                         className="form-check-input"
