@@ -137,8 +137,8 @@ const ContactMail = () => {
             <ul className="list-group ">
               <li className="list-group-item list-group-item-light">
                 <div className="row contact_body">
-                  <div className="col">
-                    <div className="form-check">
+
+                  <div className="form-check">
                       <input
                         className="form-check-input"
                         type="checkbox"
@@ -150,14 +150,12 @@ const ContactMail = () => {
                         className="form-check-label"
                         htmlFor="selectAllCheckbox"
                       >
-                        <b>Select All</b>
                       </label>
                     </div>
-                  </div>
                   <div className="col text-center">
                     <b>Email</b>
                   </div>
-                  <div className="col text-center">
+                  <div className="col text-end" style={{paddingRight:'4rem'}}>
                     <b>Date</b>
                   </div>
                 </div>
@@ -170,8 +168,7 @@ const ContactMail = () => {
                         className="list-group-item"
                       >
                         <div className="row text-muted">
-                          <div className="col">
-                            <div className="form-check">
+                          <div className="form-check">
                               <input
                                 className="form-check-input"
                                 type="checkbox"
@@ -180,7 +177,6 @@ const ContactMail = () => {
                                 checked={selectedEmails.includes(email)}
                               />
                             </div>
-                          </div>
                           <div className="col text-start">{email}</div>
                           <div className="col text-end" style={{paddingRight:'3.545rem'}}>
                             {item.date.split("").slice(0, 9).join("")}
