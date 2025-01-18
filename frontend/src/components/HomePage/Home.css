@@ -7,14 +7,25 @@ Tabs.jsx file and Home.jsx
     color: black !important; /* Inactive link color */
     cursor: pointer; /* Change cursor to pointer for better UX */
     text-decoration: none; /* Remove underline from links */
+    padding:  1rem 1.75rem !important;
+    /* transition: all 0.5s ease-in-out; */
   }
   
  .homesection_wrapper .nav-link.active {
-    color: white !important; /* Active link color */
-    background-color: blue; 
-    padding: 0.5rem 2.25rem !important;
+ padding:  1rem 1.75rem !important;
+ text-align: center;
+
+   
   }
-  
+  .homesection_wrapper .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color:white;
+  border-bottom: 5px solid #4ca2ff !important;
+  border-radius: 0;
+ 
+  }
+  .homesection_wrapper .row{
+    border-bottom: 2px solid grey;
+  }
 
   /* 
   Responsive of .homesection_wrapper of Tabs 

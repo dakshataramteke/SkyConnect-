@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect  } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
-import 'react-quill/dist/quill.snow.css'; 
+import "react-quill/dist/quill.snow.css";
 import Tabs from "../HomePage/Tabs";
 import "./Mail.css";
 
 const SingleMail = () => {
-
   const [value, setValue] = useState({
     to: "",
     from: "",
@@ -16,19 +15,19 @@ const SingleMail = () => {
     subject: "",
     message: "",
   });
-  const [error, setError] = useState(""); 
-  const [notSentCount, setNotSentCount] = useState(0); 
-  const [sentCount, setSentCount] = useState(0); 
-  const [progress, setProgress] = useState(0); 
+  const [error, setError] = useState("");
+  const [notSentCount, setNotSentCount] = useState(0);
+  const [sentCount, setSentCount] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [userName, setUserName] = useState("");
-  const [loading, setLoading] = useState(false); 
-  const [editorHtml, setEditorHtml] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [editorHtml, setEditorHtml] = useState("");
   const formRef = useRef(null);
 
   useEffect(() => {
     // Retrieve the user's name from local storage
-    const storedUserName = localStorage.getItem('Login User');
-    console.log("Store user name in singlemail : ",storedUserName);
+    const storedUserName = localStorage.getItem("Login User");
+    console.log("Store user name in singlemail : ", storedUserName);
     if (storedUserName) {
       setUserName(storedUserName); // Set the user's name in state
       console.log("..... is set to " + storedUserName);
@@ -42,11 +41,11 @@ const SingleMail = () => {
       [name]: value,
     }));
   };
-  
+
   // Quill's onChange will update editorHtml
   const handleQuillChange = (content, delta, source, editor) => {
     const htmlContent = editor.getHTML();
-    setEditorHtml(htmlContent);  // Keep track of the editor's content in HTML
+    setEditorHtml(htmlContent); // Keep track of the editor's content in HTML
     setValue((prevState) => ({
       ...prevState,
       message: htmlContent, // Update the message state to be the HTML
@@ -63,10 +62,14 @@ const SingleMail = () => {
   // Validate email and message content
   const validateSingleMail = () => {
     const form = formRef.current;
-    if (!form.checkValidity() || !editorHtml.trim() || editorHtml === '<p><br></p>') {
+    if (
+      !form.checkValidity() ||
+      !editorHtml.trim() ||
+      editorHtml === "<p><br></p>"
+    ) {
       form.classList.add("was-validated");
 
-      if (!editorHtml.trim() || editorHtml === '<p><br></p>') {
+      if (!editorHtml.trim() || editorHtml === "<p><br></p>") {
         setError("The message field cannot be empty.");
       }
 
@@ -82,7 +85,7 @@ const SingleMail = () => {
     // Validate single email
     const emailList = [value.to.trim()];
 
-    if (emailList.some(email => !isValidEmail(email))) {
+    if (emailList.some((email) => !isValidEmail(email))) {
       Swal.fire({
         title: "Error",
         text: "Please enter a valid email address.",
@@ -104,14 +107,14 @@ const SingleMail = () => {
     sendEmail();
   };
 
-
-
   const sendEmail = async (bannerData) => {
     setLoading(true); // Start loading
     setProgress(0); // Reset progress
-  
 
-    const emailList = value.to.split(",").map(email => email.trim()).filter(email => email);
+    const emailList = value.to
+      .split(",")
+      .map((email) => email.trim())
+      .filter((email) => email);
     const emailCount = emailList.length;
 
     if (emailCount === 0) {
@@ -124,18 +127,18 @@ const SingleMail = () => {
       return;
     }
 
-    if (editorHtml.trim() === '' || editorHtml === '<p><br></p>') {
+    if (editorHtml.trim() === "" || editorHtml === "<p><br></p>") {
       setError("The message cannot be empty.");
       setLoading(false);
       return;
     }
 
     const emailPayload = {
-     toList: emailList,
+      toList: emailList,
       from: value.from,
       password: value.password,
       subject: value.subject,
-    htmlContent: `
+      htmlContent: `
       <div style="width: 500px; margin: auto; background-color: whitesmoke">
         <div style="background-color: ${
           bannerData.selectedColor ? bannerData.selectedColor : "white"
@@ -180,7 +183,6 @@ const SingleMail = () => {
         </div>
       </div>
     `,
-
     };
 
     console.log("Sending email with payload:", emailPayload);
@@ -188,7 +190,7 @@ const SingleMail = () => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev < 100) {
-          return prev + (100 / emailCount);
+          return prev + 100 / emailCount;
         }
         return prev;
       });
@@ -200,7 +202,10 @@ const SingleMail = () => {
 
       for (const email of emailList) {
         try {
-          await axios.post("http://localhost:8080/SingleMail", { ...emailPayload, toList: email });
+          await axios.post("http://localhost:8080/SingleMail", {
+            ...emailPayload,
+            toList: email,
+          });
           deliveredCount++;
         } catch (error) {
           undeliveredCount++;
@@ -242,24 +247,42 @@ const SingleMail = () => {
     }
   };
 
-
-  
   return (
     <>
       <section className="full_background">
         <Tabs />
         <div className="container p-3">
           <h2 className="text-center title">Single Mail Wave</h2>
-          <p className="text-center" style={{ padding: "0 2rem", lineHeight: "2rem" }}>
+          <p
+            className="text-center"
+            style={{ padding: "0 2rem", lineHeight: "2rem" }}
+          >
             Sending single messages and information to organizations.
           </p>
           <div className="row form_body">
-            <div className="col-12 col-md-5 banner_Mail" style={{ borderTopLeftRadius: "0.725rem", borderBottomLeftRadius: "0.725rem" }}></div>
-            <div className="col-12 col-md-7 p-4 mb-5 mb-md-0" style={{ backgroundColor: "white", borderRadius: "0 0.625rem 0.625rem 0" }}>
-              <form ref={formRef} className="needs-validation" noValidate onSubmit={handleSubmit}>
+            <div
+              className="col-12 col-md-4 banner_Mail"
+              style={{
+                borderTopLeftRadius: "0.725rem",
+                borderBottomLeftRadius: "0.725rem",
+              }}
+            ></div>
+            <div
+              className="col-12 col-md-8 p-4 mb-5 mb-md-0"
+              style={{
+                backgroundColor: "white",
+                borderRadius: "0 0.625rem 0.625rem 0",
+              }}
+            >
+              <form
+                ref={formRef}
+                className="needs-validation"
+                noValidate
+                onSubmit={handleSubmit}
+              >
                 <div className="row form_data">
                   <div className="col-12 col-md-11">
-                    <div className="my-3">
+                    <div className="my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
                         To: <span style={{ color: "red" }}> *</span>
                       </label>
@@ -273,14 +296,17 @@ const SingleMail = () => {
                         onChange={handleChange}
                         required
                       />
-                      <div className="invalid-feedback">Please provide a valid email address.</div>
+                      <div className="invalid-feedback">
+                        Please provide a valid email address.
+                      </div>
                     </div>
-                    <div className="mb-3">
-                      <label htmlFor="from" className="form-label">
-                        From: <span style={{ color: "red" }}> *</span>
+
+                    <div className="mb-4 d-flex align-items-center">
+                      <label htmlFor="to" className="form-label">
+                        From : <span style={{ color: "red" }}> *</span>
                       </label>
                       <input
-                        type="email"
+                        type="text"
                         className="form-control"
                         id="from"
                         placeholder="name@gmail.com"
@@ -289,11 +315,12 @@ const SingleMail = () => {
                         onChange={handleChange}
                         required
                       />
-                      <div className="invalid-feedback">Please provide a valid email address.</div>
+                      <div className="invalid-feedback">
+                        Please provide a valid email address.
+                      </div>
                     </div>
-
-                    <div className="mb-3">
-                      <label htmlFor="Password" className="form-label">
+                    <div className="mb-4 d-flex align-items-center">
+                      <label htmlFor="Password" className="form-label ">
                         Password: <span style={{ color: "red" }}> *</span>
                       </label>
                       <input
@@ -306,10 +333,12 @@ const SingleMail = () => {
                         onChange={handleChange}
                         required
                       />
-                      <div className="invalid-feedback">Please provide a password.</div>
+                      <div className="invalid-feedback">
+                        Please provide a password.
+                      </div>
                     </div>
-                    <div className="mb-3">
-                      <label htmlFor="subject" className="form-label">
+                    <div className="mb-4 d-flex align-items-center">
+                      <label htmlFor="subject" className="form-label ">
                         Subject: <span style={{ color: "red" }}> *</span>
                       </label>
                       <input
@@ -322,16 +351,18 @@ const SingleMail = () => {
                         onChange={handleChange}
                         required
                       />
-                      <div className="invalid-feedback">Please provide a subject.</div>
+                      <div className="invalid-feedback">
+                        Please provide a subject.
+                      </div>
                     </div>
 
-                    <div className="mb-5">
+                    <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
                         Message: <span style={{ color: "red" }}> *</span>
                       </label>
                       <ReactQuill
                         theme="snow"
-                        style={{ height: "100px", width: "100%" }}
+                        style={{ height: "150px", width: "100%" }}
                         name="message"
                         value={value.message}
                         onChange={handleQuillChange}
@@ -360,6 +391,4 @@ const SingleMail = () => {
 };
 
 export default SingleMail;
-
-
 

@@ -4,23 +4,21 @@
   padding: 0;
 }
 body{
-  font-family:serif, apercu, sans-serif;
+  font-family: "Montserrat", serif;
 }
 :root{
-  --darkgreen: #73786a;
-  --lightblue: #dde7f0;
-  --green: #5d6457;
-  --blue: #cdd8da;
-  --cream: #f0ece5;
+  --navColor: #4ca2ff;
   --primary : #007bff;
-  --grey: rgb(209, 209, 209);
+  --grey: rgb(199, 198, 198);
   --darkblue: #2664af;
-  --black: var(--black);
-  --bg-background : #759cd3;
+  --black: black;
+  --white: #fff;
+  --yellow: #ffc107;
+
 }
 .full_background{
-    /* background-color:var(--bg-background); */
-    background-color: #c7e7f7 ;
+
+    background-color: #fefcfc ;
   }
   
 .spinner-border-sm {

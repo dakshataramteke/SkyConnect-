@@ -2,9 +2,9 @@
 Navbar.jsx file 
  */
 
- :root{
+:root{
     --cream: #f0ece5;
- }
+}
 li{
     list-style: none;
     display: inline-block;
@@ -12,16 +12,13 @@ li{
 }
 li a{
     color:  var(--cream);
-    font-size: 1.25em !important;
+    font-size: 1em !important;
 }
 
 .navbar_wrapper{
-    /* background-color: #2664af; */
-    background-color: #0064ff ;
+    background-color: var(--navColor) ;
 }
-.navbar{
-    box-shadow: 2px 2px 3px #292c2f;
-}
+
 .navbar .logo{
     height: 60px;
     width: 80px;

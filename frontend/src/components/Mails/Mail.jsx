@@ -220,14 +220,14 @@ const Mail = ({ emails }) => {
           <h2 className="text-center title ">Multiple Mail Wave</h2>
           <div className="row form_body">
             <div
-              className="col-12 col-md-5 banner_Mail"
+              className="col-12 col-md-4 banner_Mail"
               style={{
                 borderTopLeftRadius: "0.725rem",
                 borderBottomLeftRadius: "0.725rem",
               }}
             ></div>
             <div
-              className="col-12 col-md-7 p-md-4 pt-0"
+              className="col-12 col-md-8 p-md-4 pt-0"
               style={{
                 backgroundColor: "white",
                 borderRadius: "0 0.625rem 0.625rem 0",
@@ -236,7 +236,7 @@ const Mail = ({ emails }) => {
               <form ref={formRef} className="needs-validation" noValidate>
                 <div className="row form_data">
                   <div className="col-12 col-md-11 ">
-                    <div className="my-md-3 mb-3">
+                    <div className="my-md-3 my-4 d-flex align-items-center">
                       <label htmlFor="to" className="form-label">
                         To : <span style={{ color: "red" }}> *</span>
                       </label>
@@ -254,7 +254,7 @@ const Mail = ({ emails }) => {
                         Please provide a valid email address.
                       </div>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="from" className="form-label">
                         From : <span style={{ color: "red" }}> *</span>{" "}
                       </label>
@@ -273,7 +273,7 @@ const Mail = ({ emails }) => {
                       </div>
                     </div>
 
-                    <div className="mb-3">
+                    <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="Password" className="form-label">
                         Password : <span style={{ color: "red" }}> *</span>
                       </label>
@@ -291,7 +291,7 @@ const Mail = ({ emails }) => {
                         Please provide a password.
                       </div>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-4 d-flex align-items-center">
                       <label htmlFor="subject" className="form-label">
                         Subject: <span style={{ color: "red" }}> *</span>
                       </label>
@@ -310,13 +310,13 @@ const Mail = ({ emails }) => {
                       </div>
                     </div>
 
-                    <div className="mb-5">
+                    <div className="mb-5 d-flex align-items-center">
                       <label htmlFor="message" className="form-label">
                         Message :<span style={{ color: "red" }}> *</span>
                       </label>
                       <ReactQuill
                         theme="snow"
-                        style={{ height: "100px", width: "100%" }}
+                        style={{ height: "150px", width: "100%" }}
                         name="message"
                         value={value.message}
                         onChange={handleQuillChange}

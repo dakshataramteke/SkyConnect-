@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Home.css'; // Import the CSS file
+import './Home.css'; 
 
 const Tabs = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Tabs = () => {
       <div className="container">
         <div className="row">
         
-          <div className="offset-md-1 col-12 col-md-5 d-flex justify-content-center align-items-center p-3">
+          <div className="tabs_lines col-6 d-flex justify-content-center align-items-center ">
           <ul className="nav nav-pills">
             <li className="nav-item mt-3 mt-md-0">
               <a
@@ -58,9 +58,9 @@ const Tabs = () => {
           
           </ul>
           </div>
-          <div className=" col-12 col-md-5 d-flex justify-content-center align-items-center p-3">
+          <div className="tabs_lines col-6 d-flex justify-content-center align-items-center ">
           <ul className="nav nav-pills">
-          <li className="nav-item">
+          <li className="nav-item mt-3 mt-md-0">
               <a
                 className={` nav-link ${activeTab === "MultipleMail" ? "active" : ""}`}
                 onClick={handleMultipleMailClick}
@@ -73,9 +73,7 @@ const Tabs = () => {
           </div>
         </div>
       </div>
-        {/* <div className="mt-5 d-flex justify-content-center">
-        
-        </div> */}
+  
       </section>
     </>
   );

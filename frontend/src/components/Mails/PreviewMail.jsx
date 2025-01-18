@@ -175,10 +175,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                     onChange={handleChanges}
                   />
                 </div>
-                <div className="text-center">
-                  <p style={{color: 'green' , margin:'0.25rem'}}> <span style={{ fontWeight:'500'}}>Delivered Mail:</span> {sentCount}</p>
-                  <p style={{color:'red'}}> <span style={{ fontWeight:'500'}}>UnDelivered Mail:</span> {notSentCount}</p>
-                </div>
+               
 
                 {loading && (
                   <div className="progress mb-3">
@@ -211,6 +208,11 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
                       <span className="submit-text">Submit</span>
                     )}
                   </CLoadingButton>
+                </div>
+
+                <div className="text-center mt-3">
+                  <p style={{color: 'green' , margin:'0.25rem'}}> <span style={{ fontWeight:'500'}}>Delivered Mail:</span> {sentCount}</p>
+                  <p style={{color:'red'}}> <span style={{ fontWeight:'500'}}>UnDelivered Mail:</span> {notSentCount}</p>
                 </div>
               </form>
             </div>

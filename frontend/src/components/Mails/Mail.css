@@ -1,11 +1,6 @@
 /* 
 Single Mail & Multiple Mail & Preview.jsx
  */
-  
-  body {
-    font-family: 'Arial', sans-serif; 
-    font-size: 16px;
-  }
 
   .form_body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -14,7 +9,26 @@ Single Mail & Multiple Mail & Preview.jsx
     min-height: 600px;
     background-color: white;
   }
+.form_body .form-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align labels to the right */
+  width: 100px; /* Adjust width for consistency */
+  color: grey;
+}
+
+.form_body .form-control {
+  flex-grow: 1; 
+  padding: 20px 12px;
   
+} 
+
+.form_body .d-flex.justify-content-center {
+  display: flex;
+  align-items: center;
+  gap: 40px; /* Add spacing between label and input */
+}
+
   /* Form Data  */
   .form_body .title{
    color: var(--yellow) ;
@@ -25,28 +39,25 @@ Single Mail & Multiple Mail & Preview.jsx
   }
   .form_data input{
     margin-bottom: 2px !important;
-    border-radius: 0 !important;
+    border-radius: 0.325rem !important;
   }
+
   label{
   margin-left: 8px !important;
-  font-weight: 500;
   }
+
   .form_data input[type="text"],
   .form_data input[type="email"],
-  .form_data input[type="password"],
-  .form_data textarea{
-    border: none !important;
-    border-bottom: 2px solid #84a6d6 !important;
+  .form_data input[type="password"]{ 
+    border: 2px solid rgb(199, 198, 198);
     outline: none !important;
   }
   
   .form_data input[type="text"]:focus,
   .form_data input[type="email"]:focus,
-  .form_data input[type="password"]:focus,
-  .form_data textarea:focus{
-    /* border-bottom: 2px solid var(--blue) !important; */
-    border-bottom: 2px solid var(--darkblue) !important;
-    box-shadow: 0 0 5px 2px rgba(0, 123, 255, 0.5);
+  .form_data input[type="password"]:focus{
+    border: 2px solid #4ca2ff !important;
+    box-shadow: 0 2px 5px 10px #4ca2ff;
   }
 
   /* Focus Mode  */
@@ -58,27 +69,12 @@ Single Mail & Multiple Mail & Preview.jsx
 .banner_Mail {
   background-image: url('../../assests/Mail.jpg');
   background-position: center center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   opacity: 0.7;
   height:auto; 
   overflow: hidden; 
 }
-
-
-/* For Background of Mail Images  */
-
-@media(max-width:1345px){
-  .banner_Mail{
-    background-size: contain;
-  }
-}
-@media(max-width:991px){
-  .banner_Mail{
-    background-size: contain;
-  }
-}
-
 
 /* Send  */
   .btn_send{
@@ -135,21 +131,18 @@ Single Mail & Multiple Mail & Preview.jsx
 }
 .dummy_form input[type="text"],
   .dummy_form input[type="email"],
-  .dummy_form input[type="password"],
-  .dummy_form textarea{
-    border: none !important;
-    /* border-bottom: 2px solid var(--lightblue) !important; */
-    border-bottom: 2px solid #84a6d6 !important;
+  .dummy_form input[type="password"]{
+    border: 2px solid rgb(199, 198, 198);
     outline: none !important;
+    border-radius: 0.325rem !important;
   }
   
   .dummy_form input[type="text"]:focus,
   .dummy_form input[type="email"]:focus,
-  .dummy_form input[type="password"]:focus,
-  .dummy_form textarea:focus{
+  .dummy_form input[type="password"]:focus{
 
-    border-bottom: 2px solid var(--darkblue) !important;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border: 2px solid #4ca2ff !important;
+    box-shadow: 0 2px 5px 10px #4ca2ff;
   
   }
 .dummy_form,
@@ -244,12 +237,15 @@ input[type="color"] {
 
 
 /* Quill Effect Changes  */
-.ql-toolbar.ql-snow {
+.ql-toolbar.ql-snow ,
+.ql-container.ql-snow{
  
-  border: 1px solid var(--darkblue)
+  border: 2px solid rgb(199, 198, 198)
 }
-.ql-container.ql-snow {
-  border: 1px solid var(--darkblue);
+.ql-toolbar.ql-snow:focus ,
+.ql-container.ql-snow:focus{
+  border: 1px solid #4ca2ff;
+
 }
 
 /* Progress Bar  */
