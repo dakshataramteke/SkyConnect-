@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import "./ContactMail.css";
 
 const ContactMail = () => {
-  const [emails, setEmails] = useState([]);
+  const [emails, setEmails] = useState([]); // Store all emails in a single array
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [toEmails, setToEmails] = useState([]);
   const [sentEmails, setSentEmails] = useState([]);
@@ -50,15 +50,15 @@ const ContactMail = () => {
       .then((response) => {
         const fetchedData = response.data;
         if (Array.isArray(fetchedData)) {
-          const emailList = fetchedData.map((item) => {
-            return {
-              emails: item.email.split(",").map((email) => email.trim()),
+          const emailList = fetchedData.flatMap((item) => 
+            item.email.split(",").map((email) => ({
+              email: email.trim(),
               date: new Date(item.dates).toLocaleString("en-IN", {
                 timeZone: "Asia/Kolkata",
               }),
-            };
-          });
-          setEmails(emailList);
+            }))
+          );
+          setEmails(emailList); // Set the flattened email list
           window.addEventListener('scroll', handleScroll);
           return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -88,7 +88,7 @@ const ContactMail = () => {
       setSelectedEmails([]);
       setShowSelectedEmails(false);
     } else {
-      const allEmails = [...new Set(emails.flatMap((item) => item.emails))];
+      const allEmails = emails.map(item => item.email);
       setSelectedEmails(allEmails);
       setShowSelectedEmails(true);
     }
@@ -117,10 +117,7 @@ const ContactMail = () => {
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage; // First email index for the current page
   const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail); // Slice the emails for the current page
   const totalPages = Math.ceil(emails.length / emailsPerPage); // Total number of pages
-  console.log("Current Emails:", currentEmails);
-  console.log("Current Page:", currentPage);
-  console.log("Total Pages:", totalPages);
-  console.log("Fetched emails:", emails);
+
   const handlePageChange = (event, value) => {
     setCurrentPage(value); // Update current page based on user selection
   };
@@ -135,7 +132,7 @@ const ContactMail = () => {
               This feature is designed to streamline the management of email communications.
             </p>
             <ul className="list-group ">
-              <li className="list-group-item list-group-item-light" style={{ backgroundColor: '#cfe4fa' }}>
+              <li className="list-group-item list-group-item-light" style={{ backgroundColor: '#4ca2ff' }}>
                 <div className="row">
                   <div className="form-check">
                     <input
@@ -159,32 +156,25 @@ const ContactMail = () => {
                   </div>
                 </div>
               </li>
-              {currentEmails.map((item, index) =>
-                item.emails && item.emails.length > 0
-                  ? item.emails.map((email, emailIndex) => (
-                      <li
-                        key={`${index}-${emailIndex}`}
-                        className="list-group-item"
-                      >
-                        <div className="row text-muted">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id={`flexCheckDefault${index}-${emailIndex}`}
-                              onChange={() => handleCheckboxChange(email)}
-                              checked={selectedEmails.includes(email)}
-                            />
-                          </div>
-                          <div className="col text-start">{email}</div>
-                          <div className="col text-end" style={{ paddingRight: '3.545rem' }}>
-                            {item.date.split("").slice(0, 9).join("")}
-                          </div>
-                        </div>
-                      </li>
-                    ))
-                  : null
-              )}
+              {currentEmails.map((item, index) => (
+                <li key={index} className="list-group-item">
+                  <div className="row text-muted">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id={`flexCheckDefault${index}`}
+                        onChange={() => handleCheckboxChange(item.email)}
+                        checked={selectedEmails.includes(item.email)}
+                      />
+                    </div>
+                    <div className="col text-start">{item.email}</div>
+                    <div className="col text-end" style={{ paddingRight: '3.545rem' }}>
+                      {item.date.split("").slice(0, 9).join("")}
+                    </div>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="d-flex justify-content-center my-3">
@@ -193,7 +183,7 @@ const ContactMail = () => {
                 count={totalPages} // Set the total number of pages
                 page={currentPage} // Current page
                 onChange={handlePageChange} // Handle page change
-                color="primary" 
+               color="primary"
               />
             </Stack>
           </div>
