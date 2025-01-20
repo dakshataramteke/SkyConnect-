@@ -1,10 +1,11 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Mail from "../Mails/Mail.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import Box from "@mui/material/Box";
 import "./ContactMail.css";
 
@@ -20,7 +21,7 @@ const ContactMail = () => {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const emailsPerPage = 50;
+  const emailsPerPage = 10; // Set to 10 for pagination
   const [showUpward, setShowUpward] = useState(false);
   const [showDownward, setShowDownward] = useState(true);
 
@@ -116,13 +117,12 @@ const ContactMail = () => {
   const indexOfFirstEmail = indexOfLastEmail - emailsPerPage; // First email index for the current page
   const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail); // Slice the emails for the current page
   const totalPages = Math.ceil(emails.length / emailsPerPage); // Total number of pages
-
-  const handlePageChange = (direction) => {
-    if (direction === "next" && currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    } else if (direction === "prev" && currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
+  console.log("Current Emails:", currentEmails);
+  console.log("Current Page:", currentPage);
+  console.log("Total Pages:", totalPages);
+  console.log("Fetched emails:", emails);
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value); // Update current page based on user selection
   };
 
   return (
@@ -135,26 +135,26 @@ const ContactMail = () => {
               This feature is designed to streamline the management of email communications.
             </p>
             <ul className="list-group ">
-              <li className="list-group-item list-group-item-light"  style={{backgroundColor: '#cfe4fa'}}>
+              <li className="list-group-item list-group-item-light" style={{ backgroundColor: '#cfe4fa' }}>
                 <div className="row">
                   <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="selectAllCheckbox"
-                        onChange={handleSelectAllChange}
-                        checked={selectAll}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="selectAllCheckbox"
-                      >
-                      </label>
-                    </div>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="selectAllCheckbox"
+                      onChange={handleSelectAllChange}
+                      checked={selectAll}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="selectAllCheckbox"
+                    >
+                    </label>
+                  </div>
                   <div className="col text-center">
                     <b>Email</b>
                   </div>
-                  <div className="col text-end" style={{paddingRight:'4rem'}}>
+                  <div className="col text-end" style={{ paddingRight: '4rem' }}>
                     <b>Date</b>
                   </div>
                 </div>
@@ -168,16 +168,16 @@ const ContactMail = () => {
                       >
                         <div className="row text-muted">
                           <div className="form-check">
-                              <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id={`flexCheckDefault${index}-${emailIndex}`}
-                                onChange={() => handleCheckboxChange(email)}
-                                checked={selectedEmails.includes(email)}
-                              />
-                            </div>
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id={`flexCheckDefault${index}-${emailIndex}`}
+                              onChange={() => handleCheckboxChange(email)}
+                              checked={selectedEmails.includes(email)}
+                            />
+                          </div>
                           <div className="col text-start">{email}</div>
-                          <div className="col text-end" style={{paddingRight:'3.545rem'}}>
+                          <div className="col text-end" style={{ paddingRight: '3.545rem' }}>
                             {item.date.split("").slice(0, 9).join("")}
                           </div>
                         </div>
@@ -186,6 +186,16 @@ const ContactMail = () => {
                   : null
               )}
             </ul>
+          </div>
+          <div className="d-flex justify-content-center my-3">
+            <Stack spacing={2}>
+              <Pagination 
+                count={totalPages} // Set the total number of pages
+                page={currentPage} // Current page
+                onChange={handlePageChange} // Handle page change
+                color="primary" 
+              />
+            </Stack>
           </div>
         </div>
         <div className="row ">
