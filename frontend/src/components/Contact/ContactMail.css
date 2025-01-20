@@ -39,16 +39,16 @@
 }
 
 
-.form-check{
+.contact_maildata .form-check{
     width:60px;
     margin-left: 20px;
 }
 
-.form-check-input {
+.contact_maildata .form-check-input {
     border: 2px solid #050505;
 }
 
-.list-group-item{
+.contact_maildata .list-group-item{
     padding: 0.925rem !important;
 }
 

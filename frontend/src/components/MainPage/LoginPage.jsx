@@ -1,18 +1,18 @@
 import { React, useState } from "react";
-import { NavLink, useNavigate } from 'react-router-dom';
-import { FaRegCircleUser  } from "react-icons/fa6";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
 import "./LoginPage.css";
-import axios from 'axios';
+import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from 'js-cookie';
-import CryptoJS from 'crypto-js';
+import Cookies from "js-cookie";
+import CryptoJS from "crypto-js";
 
 const LoginPage = () => {
   const SECRET_KEY = "abhishek";
 
   const [values, setValues] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
@@ -25,67 +25,66 @@ const LoginPage = () => {
     }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(values);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  console.log(values);
+    try {
+      const res = await axios.post("http://localhost:8080/login", values);
+      if (res.status === 200) {
+        console.log("response login is : ", res.data.name);
+        localStorage.setItem("Login User", res.data.name);
+        // Store the email in local storage
+        localStorage.setItem("userEmail", values.email);
 
-  try {
-    const res = await axios.post('http://localhost:8080/login', values);
-    if (res.status === 200) {
-      console.log("response login is : ", res.data.name);
-      localStorage.setItem('Login User', res.data.name);
-      // Store the email in local storage
-      localStorage.setItem('userEmail', values.email);
-
-      Swal.fire({
-        title: "Successfully ",
-        text: "Logged in successfully!",
-        icon: "success"
+        Swal.fire({
+          title: "Successfully ",
+          text: "Logged in successfully!",
+          icon: "success",
+        });
+        const encrypted = CryptoJS.AES.encrypt(
+          JSON.stringify(values.email),
+          SECRET_KEY
+        ).toString();
+        Cookies.set("user", encrypted, { path: "/" });
+        console.log("encrypt data", encrypted);
+        navigate("/home");
+      }
+      setValues({
+        email: "",
+        password: "",
       });
-      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(values.email), SECRET_KEY).toString();
-      Cookies.set('user', encrypted, { path: '/' });
-      console.log("encrypt data", encrypted);
-      navigate('/home');
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        Swal.fire({
+          title: "Error!",
+          text: "Check UserName and Password",
+          icon: "error",
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Please fill out your username and password",
+          icon: "error",
+        });
+      }
+      console.log(err);
     }
-    setValues({
-      email: '',
-      password: ''
-    });
-  } catch (err) {
-    if (err.response && err.response.status === 401) {
-      Swal.fire({
-        title: "Error!",
-        text: "Check UserName and Password",
-        icon: "error"
-      });
-    } else {
-      Swal.fire({
-        title: "Error!",
-        text: "Please fill out your username and password",
-        icon: "error"
-      });
-    }
-    console.log(err);
-  }
-};
+  };
 
-
-return (
+  return (
     <>
-      <section className="home_wrapper" style={{ backgroundColor: '#c4ccd' }}>
+      <section className="home_wrapper" style={{ backgroundColor: "#c4ccd" }}>
         <div className="container ">
           <div className="row home_formPage">
             <div className="col-12 col-md-6 login_Page"></div>
-            <div className="col-12 col-md-6 p-4 home_form">
-              <div className="d-flex justify-content-center" style={{ color: '#2664af' }}>
-                <FaRegCircleUser  className="admin" />
-              </div>
-              <h3 className="text-center my-2">Login</h3>
+            <div className="col-12 col-md-6 p-md-5 p-4  home_form">
+            <h3 className="text-center mb-4">Login </h3>
               <form onSubmit={handleSubmit}>
+
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                    Email address
+                  <b> Email address</b> 
                   </label>
                   <input
                     type="email"
@@ -94,6 +93,7 @@ return (
                     name="email"
                     placeholder="name@gmail.com"
                     aria-describedby="emailHelp"
+                    autocomplete="off"
                     value={values.email}
                     onChange={handleChange}
                   />
@@ -101,28 +101,42 @@ return (
 
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label ">
-                    Password
+                    <b>Password </b>
                   </label>
                   <input
                     type="password"
                     className="form-control"
                     id="password"
                     name="password"
-                    placeholder="********"
+                    placeholder="Enter your password"
                     value={values.password}
                     onChange={handleChange}
+                    autocomplete="off"
                     aria-describedby="password"
                   />
                 </div>
-                <div className="my-3">
-                  <button type="submit" className="btn btn-primary">
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="Check1"
+                  />
+                  <label class="form-check-label text-muted" for="Check1" style={{fontSize:'0.875rem'}}>
+                    By Signing up I Agree with <span className="text-primary">Terms & Condition</span> 
+                  </label>
+                </div>
+                <div className="my-4 d-flex justify-content-center">
+                  <NavLink to="/signup"  className="btn btn-primary me-2">
+                    Sign Up
+                  </NavLink>
+                  <button type="submit" className="ms-md-3 ms-lg-5 ms-2 btn btn-outline-secondary">
                     Sign In
                   </button>
                 </div>
-                <div className="text-center">
-                  <p className="mb-0">Don't have an account? <NavLink to="/signup" className="fw-bold">Register</NavLink></p>
-                </div>
+         
               </form>
+
+      
             </div>
           </div>
         </div>

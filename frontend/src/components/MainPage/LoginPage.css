@@ -2,7 +2,6 @@
  Login Page and SignUp Page
    */
 
-
 .home_wrapper {
   height: 100vh;
   overflow: auto !important;
@@ -68,8 +67,11 @@
 }
 
 /* Input field border for Home and Sign up */
-.home_form input,
-.signup_wrapper input {
+.home_form input[type="email"] ,
+.home_form input[type="password"] ,
+.signup_wrapper input[type="email"],
+.signup_wrapper input[type="password"],
+.signup_wrapper input[type="text"] {
   width: 90%;
   padding: 10px;
   font-size: 16px;
@@ -95,6 +97,10 @@
   background-color: transparent;
 }
 
+.home_wrapper .form-check-input{
+  border:2px solid #2664af;
+
+}
 @media(max-width:430px){
     .login_Page {
         border-radius: 0;
@@ -152,7 +158,6 @@ Sign Up Page
 }
 
 .signup_wrapper .signup_righsidebar {
-  /* background-color: #2664af; */
   background-color: #fff;
   position: relative;
   z-index: 11;
@@ -181,7 +186,6 @@ Sign Up Page
     100% 100%,
     100% 0%
   );
-  /* clip-path: polygon(30% 13%, 100% 18%, 100% 20%, 100% 100%, 0 100%, 0 16%); */
 }
 
 
@@ -192,16 +196,32 @@ Sign Up Page
   }
 }
 
-.signup_wrapper input {
+.signup_wrapper input[type="text"],
+.signup_wrapper input[type="password"],
+.signup_wrapper input[type="email"] {
   width: 90%;
 }
 .home_wrapper .btn-primary,
+.home_wrapper .btn-outline-secondary,
 .signup_wrapper .btn-primary {
-  width: 90%;
   letter-spacing: 1px;
   font-weight: 600;
+  border-radius: 3rem;
+  padding: 0.5rem 1.5rem;
 }
 
+@media(max-width: 430px){
+  .home_wrapper .btn-primary,
+.home_wrapper .btn-outline-secondary,
+.signup_wrapper .btn-primary {
+
+  border-radius: 2rem;
+  padding: 0.5rem 1.75rem;
+}
+}
+.home_wrapper .btn-outline-secondary:hover{
+  background-color: #0b5ed7;
+}
 
 /* 
 Responsive image 
@@ -221,7 +241,6 @@ Responsive image
   }
 
   .signup_wrapper .signup_sidebar {
-    /* min-height: 45vh; */
     border-radius: 0;
     background-size: cover;
   }
@@ -239,7 +258,9 @@ Responsive image
 
 /* Home Page Button  */
 @media (max-width: 430px) {
-  .home_form input,
+  .home_form input[type="email"],
+  .home_form input[type="password"],
+  .home_wrapper .btn-outline-secondary,
   .home_wrapper .btn-primary {
     width: 100%;
   }
@@ -251,7 +272,7 @@ Responsive image
 }
 
 
-/* Sweet Alert  */
+/* Sweet Alert Pop Up  */
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
     background-color: #2d40ad !important;
     border: none !important;
