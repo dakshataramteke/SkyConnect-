@@ -129,8 +129,8 @@ const ContactMail = () => {
     <section className="contact_maildata">
       <div className="container ">
         <div className="row mt-5">
-          <div className="col mt-3 mt-md-4 contact_alldata">
-            <h2 className="text-center">All Emails </h2>
+          <div className="col mt-3 mt-md-5 contact_alldata">
+            <h2 className="text-center ">All Emails Data</h2>
             <p className="text-center py-2">
               This feature is designed to streamline the management of email communications.
             </p>
@@ -233,7 +233,7 @@ const ContactMail = () => {
               </>
             )}
           </div>
-          <div className="d-flex justify-content-center ">
+          <div className="d-flex justify-content-center fixed_Arrow">
             <div className="scrollArrows">
               {showUpward && (
                 <div className="upwardArrow" onClick={scrollToTop}>

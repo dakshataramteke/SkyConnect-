@@ -168,7 +168,7 @@ Single Mail & Multiple Mail & Preview.jsx
   content: "";
   height: 2px;
   width: 10%;
-  background-color: var(--darkblue);
+  background-color: #4ca2ff;
   left: 45%;
   bottom: -10px;
 }
@@ -218,7 +218,6 @@ input[type="color"] {
 
 /* Best Regard  */
 
-
 .best_regards h6{
   color: var(--primary);
 }
@@ -239,15 +238,19 @@ input[type="color"] {
 /* Quill Effect Changes  */
 .ql-toolbar.ql-snow ,
 .ql-container.ql-snow{
- 
   border: 2px solid rgb(199, 198, 198)
 }
-.ql-toolbar.ql-snow:focus ,
-.ql-container.ql-snow:focus{
-  border: 1px solid #4ca2ff;
-
+.ql-toolbar.ql-snow:focus,
+.ql-container.ql-snow:focus,
+.ql-container.ql-snow:focus-within {
+  border: 2px solid #4ca2ff;
 }
 
+/* Change the border color when the Quill editor is focused */
+.ql-toolbar.ql-snow:focus-within,
+.ql-container.ql-snow:focus-within {
+  border:2px solid  #4ca2ff !important; 
+}
 /* Progress Bar  */
 .progress .progress-stacked{
  height:0.75rem !important;

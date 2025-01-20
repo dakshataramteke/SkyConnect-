@@ -23,6 +23,36 @@ li a{
     height: 60px;
     width: 80px;
 }
+.activeLink{
+   position: relative !important;
+ 
+}
+.activeLink::after{
+    position: absolute !important;
+    content: '';
+    bottom: -5px;
+    left:0;
+    height:2px;
+   background-color: #fff;
+    width:0% ;
+    transition:  all 0.3s ease-in-out !important;
+   
+}
+.activeLink:hover::after,
+.activeLink:active::after {
+    width:100% !important;
+}
+
+@media(max-width:768px){
+    .activeLink:hover::after,
+.activeLink:active::after {
+    width:10% !important;
+}
+.navbar-nav{
+    padding-bottom:2rem !important;
+}
+}
+
 
 /* Responsive for logo  */
 @media (max-width: 768px) {
@@ -69,12 +99,6 @@ li a{
 .navbar-collapse {
     justify-content: center;
 }
-
-.header .nav-link{
-    color: var(--cream);
-}
-
-
 
 
 /* Social Links */
