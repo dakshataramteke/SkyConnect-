@@ -1,10 +1,10 @@
 import { React, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import "./LoginPage.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const SECRET_KEY = "abhishek";
@@ -13,6 +13,8 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
+  const [isAgreed, setIsAgreed] = useState(false); // New state for checkbox
 
   const navigate = useNavigate();
 
@@ -24,8 +26,22 @@ const LoginPage = () => {
     }));
   };
 
+  const handleCheckboxChange = () => {
+    setIsAgreed((prev) => !prev); // Toggle checkbox state
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!isAgreed) { // Check if the checkbox is checked
+      Swal.fire({
+        title: "Error!",
+        text: "You must agree to the terms and conditions to log in.",
+        icon: "error",
+      });
+      return; // Stop the submission process
+    }
+
     console.log(values);
 
     try {
@@ -77,12 +93,12 @@ const LoginPage = () => {
           <div className="row home_formPage">
             <div className="col-12 col-md-6 login_Page"></div>
             <div className="col-12 col-md-6 p-md-5 p-4  home_form">
-            <h3 className="text-center mb-4">Login </h3>
+              <h3 className="text-center mb-4">Login </h3>
               <form onSubmit={handleSubmit}>
 
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                  <b> Email address</b> 
+                    <b> Email address</b> 
                   </label>
                   <input
                     type="email"
@@ -118,23 +134,22 @@ const LoginPage = () => {
                     type="checkbox"
                     className="form-check-input"
                     id="Check1"
+                    checked={isAgreed}
+                    onChange={handleCheckboxChange} // Update checkbox state
                   />
                   <label className="form-check-label text-muted" htmlFor="Check1" style={{fontSize:'0.875rem'}}>
                     By Signing up I Agree with <span className="text-primary">Terms & Condition</span> 
                   </label>
                 </div>
                 <div className="my-4 d-flex justify-content-center">
-                  <NavLink to="/signup"  className="btn btn-primary me-2">
+                  <NavLink to="/signup" className="btn btn-primary me-2">
                     Sign Up
                   </NavLink>
                   <button type="submit" className="ms-md-3 ms-lg-5 ms-2 btn btn-outline-secondary">
                     Sign In
                   </button>
                 </div>
-         
               </form>
-
-      
             </div>
           </div>
         </div>

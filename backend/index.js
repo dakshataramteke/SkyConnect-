@@ -187,25 +187,38 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
   }
 };
 
+
+
+/**
+ * 
+ * ====  For Username =====
+ * 
+ **/
+
+app.get('/username', (req, res) => {
+  const username = req.query.name;
+  console.log("User Email from session:", username); // Log the user email
+});
+
 /*** 
  *
  *==== Contact Mails 
  *  
  ***/
 
- app.get("/contactMails",(req,res)=>{
-  // console.log("Received request for contactMails"); // Add this lin
-  const sql = `SELECT email, dates FROM excelsheetdata`;
-  connection.query(sql,(err,results)=>{
-    if(err){
+
+app.get("/contactMails", (req, res) => {
+  const email = req.query.email; 
+  const sql = `SELECT email, dates FROM excelsheetdata WHERE username = ?`;
+  
+  connection.query(sql, email, (err, results) => {
+    if (err) {
       console.error("Error executing query:", err);
       return res.status(500).send("Internal Server Error");
     }
-    // console.log("Results from database:", results);
     res.json(results);
-  })
- })
-
+  });
+});
 
 /***
  * 
@@ -213,8 +226,8 @@ const sendEmails = async (toList, from, password, subject, htmlContent) => {
  *
  ***/
 
-app.post('/singleMail', async (req, res) => {
-  const { toList, from, password, subject, htmlContent } = req.body;
+ app.post('/singleMail', async (req, res) => {
+  const { toList, from, password, subject, htmlContent, username } = req.body; // Added username to the destructured body
   console.log("Received toList:", toList);
 
   // Check if toList is a single email
@@ -225,7 +238,24 @@ app.post('/singleMail', async (req, res) => {
   // Handle the email sending logic here
   try {
     const result = await sendEmails(toList.trim(), from, password, subject, htmlContent);
-    res.status(result.status).send(result.message);
+    
+    // Check if email sending was successful
+    if (result.status !== 200) {
+      return res.status(result.status).send(result.message);
+    }
+
+    const currentDate = new Date(); // Get the current date and time
+    const emailString = toList.trim(); // Use toList as emailString
+
+    const sql = `INSERT INTO excelsheetdata (email, username, dates) VALUES (?, ?, ?)`;
+    connection.query(sql, [emailString, username, currentDate], (error, results) => {
+      if (error) {
+        console.error('Database error:', error);
+        return res.status(500).send('Database error');
+      }
+      // Send a single response after successful email sending and database insertion
+      res.status(200).send('Email sent and valid email inserted successfully');
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -242,7 +272,6 @@ app.post('/send-emails', async (req, res) => {
     res.status(500).json({ status: 500, message: error.message });
   }
 });
-
 
 
 // Example usage in your route handler
@@ -297,18 +326,6 @@ app.post('/save-emails', (req, res) => {
   });
 });
 
-/**
- * 
- * ====  For Username =====
- * 
- **/
-
-app.get('/username', (req, res) => {
-  const username = req.query.name;
-  console.log("User Email from session:", username); // Log the user email
-
-
-});
 
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}`);

@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import "./ContactMail.css";
 
 const ContactMail = () => {
-  const [emails, setEmails] = useState([]); // Store all emails in a single array
+  const [emails, setEmails] = useState([]); 
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [toEmails, setToEmails] = useState([]);
   const [sentEmails, setSentEmails] = useState([]);
@@ -42,37 +42,75 @@ const ContactMail = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
   };
 
+  // useEffect(() => {
+  //   const username = localStorage.getItem('userEmail');
+  //   console.log("Frontend UserEmail of Contact : ", username + "  hey......");
+  //   axios
+  //     .get("http://localhost:8080/contactMails", { withCredentials: true })
+  //     .then((response) => {
+  //       console.log("Response from ContactMails : ", response.data.username);
+  //       console.log("The username is in cnt : ", username);
+  //       const fetchedData = response.data;
+  //       if (Array.isArray(fetchedData)) {
+  //         const emailList = fetchedData.flatMap((item) => 
+  //           item.email.split(",").map((email) => ({
+  //             email: email.trim(),
+  //             date: new Date(item.dates).toLocaleString("en-IN", {
+  //               timeZone: "Asia/Kolkata",
+  //             }),
+  //           }))
+  //         );
+  //         setEmails(emailList); 
+  //         window.addEventListener('scroll', handleScroll);
+  //         return () => {
+  //           window.removeEventListener('scroll', handleScroll);
+  //         }
+  //       } else {
+  //         console.error("Fetched data is not an array:", fetchedData);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // });
+
+
   useEffect(() => {
-    const username = localStorage.getItem('userEmail');
-    console.log("Frontend UserEmail of Contact : ", username + "  hey......");
-    axios
-    .get("http://localhost:8080/contactMails", { withCredentials: true })
-    .then((response) => {
-      console.log("Response from ContactMails : ", response.data.username);
-      console.log("The username is in cnt : ",username);
-      const fetchedData = response.data;
-      if (Array.isArray(fetchedData)) {
-        const emailList = fetchedData.flatMap((item) => 
-          item.email.split(",").map((email) => ({
-            email: email.trim(),
-            date: new Date(item.dates).toLocaleString("en-IN", {
-              timeZone: "Asia/Kolkata",
-            }),
-          }))
-        );
-          setEmails(emailList); // Set the flattened email list
-          window.addEventListener('scroll', handleScroll);
-          return () => {
-            window.removeEventListener('scroll', handleScroll);
-          }
-        } else {
-          console.error("Fetched data is not an array:", fetchedData);
+    const fetchData = async () => {
+        const username = localStorage.getItem('userEmail');
+        console.log("Frontend UserEmail of Contact:", username);
+        
+        try {
+            const response = await axios.get("http://localhost:8080/contactMails", {
+                params: { email: username }, // Send email as a query parameter
+                withCredentials: true
+            });
+            
+            const fetchedData = response.data;
+            console.log("Response from ContactMails:", fetchedData);
+
+            if (Array.isArray(fetchedData)) {
+                const emailList = fetchedData.flatMap((item) =>
+                    item.email.split(",").map((email) => ({
+                        email: email.trim(),
+                        date: new Date(item.dates).toLocaleString("en-IN", {
+                            timeZone: "Asia/Kolkata",
+                        }),
+                    }))
+                );
+                setEmails(emailList);
+                window.addEventListener("scroll", handleScroll);
+            } else {
+                console.error("Fetched data is not an array:", fetchedData);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  });
+    };
+
+    fetchData();
+    return () => window.removeEventListener("scroll", handleScroll);
+}, []); // Add an empty dependency array to prevent repeated calls
 
   const handleCheckboxChange = (email) => {
     setSelectedEmails((prevSelected) => {
@@ -115,13 +153,13 @@ const ContactMail = () => {
   };
 
   // Pagination logic
-  const indexOfLastEmail = currentPage * emailsPerPage; // Last email index for the current page
-  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage; // First email index for the current page
-  const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail); // Slice the emails for the current page
-  const totalPages = Math.ceil(emails.length / emailsPerPage); // Total number of pages
+  const indexOfLastEmail = currentPage * emailsPerPage; 
+  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage; 
+  const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail); 
+  const totalPages = Math.ceil(emails.length / emailsPerPage); 
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); // Update current page based on user selection
+    setCurrentPage(value); 
   };
 
   return (
@@ -136,7 +174,7 @@ const ContactMail = () => {
             <ul className="list-group ">
               <li className="list-group-item list-group-item-light" style={{ backgroundColor: '#4ca2ff' }}>
                 <div className="row">
-                  <div className="form-check">
+                  <div className="form-check ">
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -150,10 +188,10 @@ const ContactMail = () => {
                     >
                     </label>
                   </div>
-                  <div className="col text-center">
+                  <div className="col text-center text-white">
                     <b>Email</b>
                   </div>
-                  <div className="col text-end" style={{ paddingRight: '4rem' }}>
+                  <div className="col text-end text-white" style={{ paddingRight: '4rem' }}>
                     <b>Date</b>
                   </div>
                 </div>
