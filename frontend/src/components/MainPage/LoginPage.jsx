@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaRegCircleUser } from "react-icons/fa6";
 import "./LoginPage.css";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -34,7 +33,6 @@ const LoginPage = () => {
       if (res.status === 200) {
         console.log("response login is : ", res.data.name);
         localStorage.setItem("Login User", res.data.name);
-        // Store the email in local storage
         localStorage.setItem("userEmail", values.email);
 
         Swal.fire({
@@ -93,7 +91,7 @@ const LoginPage = () => {
                     name="email"
                     placeholder="name@gmail.com"
                     aria-describedby="emailHelp"
-                    autocomplete="off"
+                    autoComplete="off"
                     value={values.email}
                     onChange={handleChange}
                   />
@@ -111,17 +109,17 @@ const LoginPage = () => {
                     placeholder="Enter your password"
                     value={values.password}
                     onChange={handleChange}
-                    autocomplete="off"
+                    autoComplete="off"
                     aria-describedby="password"
                   />
                 </div>
-                <div class="mb-3 form-check">
+                <div className="mb-3 form-check">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="Check1"
                   />
-                  <label class="form-check-label text-muted" for="Check1" style={{fontSize:'0.875rem'}}>
+                  <label className="form-check-label text-muted" htmlFor="Check1" style={{fontSize:'0.875rem'}}>
                     By Signing up I Agree with <span className="text-primary">Terms & Condition</span> 
                   </label>
                 </div>

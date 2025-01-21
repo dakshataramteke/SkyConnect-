@@ -21,7 +21,7 @@ const ContactMail = () => {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const emailsPerPage = 10; // Set to 10 for pagination
+  const emailsPerPage = 30;
   const [showUpward, setShowUpward] = useState(false);
   const [showDownward, setShowDownward] = useState(true);
 
@@ -30,9 +30,7 @@ const ContactMail = () => {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
-    // Show upward arrow if user is not at the top
     setShowUpward(scrollY > 0);
-    // Show downward arrow if user is not at the bottom
     setShowDownward(scrollY + windowHeight < documentHeight);
   };
 
@@ -45,19 +43,23 @@ const ContactMail = () => {
   };
 
   useEffect(() => {
+    const username = localStorage.getItem('userEmail');
+    console.log("Frontend UserEmail of Contact : ", username + "  hey......");
     axios
-      .get("http://localhost:8080/contactMails")
-      .then((response) => {
-        const fetchedData = response.data;
-        if (Array.isArray(fetchedData)) {
-          const emailList = fetchedData.flatMap((item) => 
-            item.email.split(",").map((email) => ({
-              email: email.trim(),
-              date: new Date(item.dates).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              }),
-            }))
-          );
+    .get("http://localhost:8080/contactMails", { withCredentials: true })
+    .then((response) => {
+      console.log("Response from ContactMails : ", response.data.username);
+      console.log("The username is in cnt : ",username);
+      const fetchedData = response.data;
+      if (Array.isArray(fetchedData)) {
+        const emailList = fetchedData.flatMap((item) => 
+          item.email.split(",").map((email) => ({
+            email: email.trim(),
+            date: new Date(item.dates).toLocaleString("en-IN", {
+              timeZone: "Asia/Kolkata",
+            }),
+          }))
+        );
           setEmails(emailList); // Set the flattened email list
           window.addEventListener('scroll', handleScroll);
           return () => {
@@ -70,7 +72,7 @@ const ContactMail = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  });
 
   const handleCheckboxChange = (email) => {
     setSelectedEmails((prevSelected) => {
@@ -255,3 +257,4 @@ const ContactMail = () => {
 };
 
 export default ContactMail;
+

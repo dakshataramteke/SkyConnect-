@@ -3,8 +3,7 @@ import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
-// import ContactMail from "../Contact/ContactMail";
-import { useLocation } from "react-router-dom"; // Import useLocation
+import { useLocation } from "react-router-dom"; 
 import "./Mail.css";
 
 const Mail = ({ emails }) => {
@@ -31,10 +30,10 @@ const Mail = ({ emails }) => {
    useEffect(() => {
       // Retrieve the user's name from local storage
       const storedUserName = localStorage.getItem('Login User');
-      console.log("Store user name in singlemail : ",storedUserName);
+      // console.log("Store user name in singlemail : ",storedUserName);
       if (storedUserName) {
         setUserName(storedUserName); // Set the user's name in state
-        console.log("..... is set to " + storedUserName);
+        // console.log("..... is set to " + storedUserName);
       }
     }, []);
   const handleChange = (e) => {

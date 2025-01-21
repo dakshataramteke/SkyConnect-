@@ -27,10 +27,10 @@ const SingleMail = () => {
   useEffect(() => {
     // Retrieve the user's name from local storage
     const storedUserName = localStorage.getItem("Login User");
-    console.log("Store user name in singlemail : ", storedUserName);
+
     if (storedUserName) {
       setUserName(storedUserName); // Set the user's name in state
-      console.log("..... is set to " + storedUserName);
+
     }
   }, []);
   // Update both value and editorHtml
