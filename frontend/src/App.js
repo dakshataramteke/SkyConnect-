@@ -30,7 +30,7 @@ function AppWithAuthCheck() {
     // Fetch valid emails from the database
     const fetchValidEmails = async () => {
       try {
-        const response = await fetch('/api/valid-emails'); // Replace with your API endpoint
+        const response = await fetch('/api/send-emails'); // Replace with your API endpoint
         const data = await response.json();
         setValidEmails(data); // Assuming data is an array of valid emails
       } catch (error) {

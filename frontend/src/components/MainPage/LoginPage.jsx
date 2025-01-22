@@ -89,11 +89,12 @@ const LoginPage = () => {
   return (
     <>
       <section className="home_wrapper" style={{ backgroundColor: "#c4ccd" }}>
-        <div className="container ">
+        <div className="container-fluid">
           <div className="row home_formPage">
             <div className="col-12 col-md-6 login_Page"></div>
-            <div className="col-12 col-md-6 p-md-5 p-4  home_form">
-              <h3 className="text-center mb-4">Login </h3>
+            <div className="col-12 col-md-6 p-md-5 p-4 home_form">
+            <div className="pg">
+            <h3 className="text-center mb-4 ">Login </h3>
               <form onSubmit={handleSubmit}>
 
                 <div className="mb-3">
@@ -142,14 +143,17 @@ const LoginPage = () => {
                   </label>
                 </div>
                 <div className="my-4 d-flex justify-content-center">
-                  <NavLink to="/signup" className="btn btn-primary me-2">
-                    Sign Up
-                  </NavLink>
-                  <button type="submit" className="ms-md-3 ms-lg-5 ms-2 btn btn-outline-secondary">
+                <button type="submit" className="me-2 btn btn-outline-secondary">
                     Sign In
                   </button>
+                  <NavLink to="/signup" className="btn btn-primary  ms-md-3 ms-lg-5 ms-2">
+                    Sign Up
+                  </NavLink>
+                 
                 </div>
               </form>
+            </div>
+            
             </div>
           </div>
         </div>

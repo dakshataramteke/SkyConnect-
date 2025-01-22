@@ -1,6 +1,11 @@
-/*
- Login Page and SignUp Page
-   */
+/***
+ == Login Page and SignUp Page ==
+***/
+
+
+/* 
+====    Login Page ====
+*/
 
 .home_wrapper {
   height: 100vh;
@@ -8,16 +13,15 @@
   display: flex;
   justify-content: end;
   align-items: center; 
-  background-color: #c4ccdc;
-  /* background-color: var(--bg-background); */
+  background-color: #fff;
 }
 
 .form-control{
   border-radius: 0 !important;
 }
+
 .home_wrapper .home_formPage {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+  position:relative; 
 }
 
 .login_Page {
@@ -27,25 +31,25 @@
   background-repeat: no-repeat;
   border-radius: 8px 0 0 8px;
   background-color: #fff;
-  min-height: 60vh;
+  min-height: 100vh;
+  width:100vh;
 }
 
 .home_form {
   width: 100%;
-  position: relative;
   background-color:#fff;
   z-index: 11;
   border-radius: 0 8px 8px 0;
+  position:relative;
 }
 
-.home_form::after {
+.home_wrapper .home_form::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 0 8px 8px 0;
   clip-path: polygon(
     0% 0%,
     0% 100%,
@@ -62,9 +66,14 @@
   z-index: -1; 
 }
 
-.home_formPage .admin {
-  font-size: 58px;
+.home_form .pg{
+position:relative;
+top:50%;
+left: 50%;
+transform: translate(-50%,-50%);
+
 }
+
 
 /* Input field border for Home and Sign up */
 .home_form input[type="email"] ,
@@ -99,8 +108,8 @@
 
 .home_wrapper .form-check-input{
   border:2px solid #2664af;
-
 }
+
 @media(max-width:430px){
     .login_Page {
         border-radius: 0;
@@ -132,18 +141,17 @@
 }
 
 
-/* 
-Sign Up Page
- */
+/*** 
+*
+=== Sign Up Page ===
+*
+***/
 
 .signup_wrapper {
-  padding: 3rem;
-  background-color: #c4ccdc;
-}
-
-.signup_wrapper .signup_formPage {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  border-radius: 1rem;
+  background-color: #fff;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .signup_wrapper .signup_sidebar {
@@ -153,8 +161,7 @@ Sign Up Page
   background-size: cover;
   min-height: 60vh;
   border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
-  background-color: #fff;
+  border-bottom-left-radius: 1rem;  
 }
 
 .signup_wrapper .signup_righsidebar {
@@ -223,9 +230,10 @@ Sign Up Page
   background-color: #0b5ed7;
 }
 
-/* 
-Responsive image 
- */
+/*** 
+Responsive Image 
+***/
+
 @media (max-width: 1024px) {
   .signup_wrapper {
     padding: 1rem;
@@ -256,6 +264,7 @@ Responsive image
   }
 }
 
+
 /* Home Page Button  */
 @media (max-width: 430px) {
   .home_form input[type="email"],
@@ -272,8 +281,8 @@ Responsive image
 }
 
 
-/* Sweet Alert Pop Up  */
+/* Sweet Alert Pop Up After Login */
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){
-    background-color: #2d40ad !important;
+    background-color: #4ca2ff!important;
     border: none !important;
 }

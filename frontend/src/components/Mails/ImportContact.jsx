@@ -86,7 +86,7 @@ const ImportContact = () => {
 
     setIsSaving(true);
     setLoading(true); // Start loading
-    console.log("The Emails are: ", processedEmails);
+    // console.log("The Emails are: ", processedEmails);
 
     // Retrieve the user's email from local storage
     const username = localStorage.getItem("userEmail");

@@ -326,7 +326,7 @@ const SingleMail = () => {
                         type="password"
                         className="form-control"
                         id="Password"
-                        placeholder="************"
+                        placeholder="Enter your Password"
                         name="password"
                         value={value.password}
                         onChange={handleChange}

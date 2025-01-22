@@ -58,7 +58,7 @@ const SignUpPage = () => {
   return (
     <>
       <section className="signup_wrapper">
-        <div className="container">
+        <div className="container-fluid">
           <div className="row signup_formPage">
             <div className="col-12 col-md-6 signup_sidebar"></div>
             <div className="col-12 col-md-6 col-lg-6 py-md-4 signup_righsidebar">

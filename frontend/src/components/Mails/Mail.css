@@ -117,8 +117,10 @@ Single Mail & Multiple Mail & Preview.jsx
 }
 
 @media(max-width:430px){
-  .form_data{
-    border-bottom-left-radius: 1rem !important;
+  .multiple_wrapper .form_data{
+    padding-bottom: 3.75rem;
+    border-bottom-left-radius:0.25rem;
+
   }
 }
   

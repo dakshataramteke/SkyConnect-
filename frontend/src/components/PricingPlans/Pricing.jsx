@@ -24,9 +24,9 @@ const Pricing = () => {
             <li> 100+ Video Tutorials</li>
             <li> No Tools</li>
         </ul>
-        <button className="btn get_started  mt-2">Get Started</button>
+        <button className="btn get_started  mt-2 bg-primary">Get Started</button>
         </div>
-        <div className="col-12 col-md-3 card_border" style={{backgroundColor:'#84bff9'}}>
+        <div className="col-12 col-md-3 card_border active_section" style={{backgroundColor:'#cfe4fa'}} >
         <button className='btn Popular_btn '>Popular</button>
         <h2>  Intermediate </h2>
         <h5>For Small Bussiness Team</h5>
@@ -38,7 +38,7 @@ const Pricing = () => {
             <li> 100+ Video Tutorials</li>
             <li> 2 Tools</li>
         </ul>
-        <button className="btn get_started mt-2">Get Started</button>
+        <button className="btn get_started mt-2" style={{backgroundColor:'#ffce1c',  color:'#000000'}}>Get Started</button>
         </div>
         <div className="col-12 col-md-3 card_border">
         <h2>Advance </h2>
@@ -51,7 +51,7 @@ const Pricing = () => {
             <li>Unlimited Videos</li>
             <li> Unlimited Tools</li>
         </ul>
-        <button className="btn get_started mt-2">Get Started</button>
+        <button className="btn get_started mt-2 bg-primary">Get Started</button>
          </div>
       
         </div>    

@@ -1,19 +1,24 @@
-/* Pricing.jsx file  */
+/*** 
+=== Pricing.jsx file ===
+***/
 
-.pricing_Wrapper{
+  .pricing_Wrapper{
     margin-top: 4.25rem !important;
     background-color:   #fefcfc;
-}
-.pricing_Wrapper .title{
+  }
+
+  .pricing_Wrapper .title{
   padding-top: 1rem !important;
     color: #0064ff;
   }
+
   .pricing_Wrapper .row{
     margin-top: 2rem !important;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .pricing_Wrapper .card_border{
     padding: 1.25rem 1.5rem;
     margin: 1rem;
@@ -21,20 +26,22 @@
     text-align: center;
     line-height: 2.5;
     border-radius: 0.5rem;
-    background-color:#cfe4fa ;
-    transition: transform 0.3s ease, padding 0.3s ease;
-    
+    background-image:url('../../assests/price.jpg');
+    background-size: cover;
+    transition: transform 0.3s ease, padding 0.3s ease;    
   }
+
+
   .pricing_Wrapper .card_border:hover{
     transform: translateY(-10px); 
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     border: 1px solid #2664af;
-    background-color: #4ca2ff!important;
-    /* background-color: #ffc107!important; */
   }
-.pricing_Wrapper .card_border h5{
+
+  .pricing_Wrapper .card_border h5{
     position: relative;
-}
+  } 
+
   .pricing_Wrapper .card_border h5::after{
     position: absolute;
     content: "";
@@ -44,6 +51,7 @@
     left: 40%;
     bottom: -10px;
   }
+   
   .pricing_Wrapper .card_border ul{
     margin: 0;
     padding: 0;
@@ -52,15 +60,19 @@
     align-items: center;
     padding-top: 1rem;
   }
+
+
   .pricing_Wrapper .card_border .ul_tabs li{
     border-bottom: 2px solid rgb(199, 198, 198);
     width: 100%;
     margin-bottom: 0.75rem;
 
   }
+
   .pricing_Wrapper .card_border .ul_tabs li:first-child{
     border-top: 2px solid rgb(199, 198, 198);
   }
+
   .pricing_Wrapper .card_border .Popular_btn{
     border-radius: 1.5rem;
     margin-bottom: 1rem;
@@ -71,17 +83,20 @@
   .pricing_Wrapper .card_border .get_started{
     padding: 0.5rem 1rem;
     border-radius: .25rem;
-    background-color: var(--yellow);
+    color:white;
+    /* background-color: var(--yellow); */
   }
+
   .pricing_Wrapper .card_border .get_started:hover{
     background-color: #e8a303;
   }
+
   .pricing_Wrapper .card_border .price{
     color :var(--primary);
     margin-top: 1rem;
   }
 
-
+ 
   /* Responsive Designs  */
 
   @media(max-width:991px){
@@ -93,10 +108,9 @@
   @media(max-width:767px){
    .pricing_Wrapper{
     margin-top: 3.25rem !important;
+  }
+  .pricing_Wrapper .row{
+    margin-top: 0 !important;
+    padding: 1.25rem;
    }
-    .pricing_Wrapper .row{
-      margin-top: 0 !important;
-        padding: 1.25rem;
-    }
- 
   }

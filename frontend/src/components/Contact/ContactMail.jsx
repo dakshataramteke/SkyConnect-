@@ -78,16 +78,16 @@ const ContactMail = () => {
   useEffect(() => {
     const fetchData = async () => {
         const username = localStorage.getItem('userEmail');
-        console.log("Frontend UserEmail of Contact:", username);
+        // console.log("Frontend UserEmail of Contact:", username);
         
         try {
             const response = await axios.get("http://localhost:8080/contactMails", {
-                params: { email: username }, // Send email as a query parameter
+                params: { email: username }, 
                 withCredentials: true
             });
             
             const fetchedData = response.data;
-            console.log("Response from ContactMails:", fetchedData);
+            // console.log("Response from ContactMails:", fetchedData);
 
             if (Array.isArray(fetchedData)) {
                 const emailList = fetchedData.flatMap((item) =>

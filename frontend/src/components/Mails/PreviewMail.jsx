@@ -38,7 +38,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = formRef.current;
-    if (loading) return; // Prevent further clicks if already loading
+    if (loading) return; 
 
     const isValid = validateSingleMail();
     if (!isValid || !form.checkValidity()) {
@@ -62,7 +62,7 @@ const PreviewMail = ({ value, sendEmail, sentCount, notSentCount, validateSingle
 
 
     try {
-      setLoading(true); // Set loading state before sending email
+      setLoading(true); 
       await sendEmail(bannerData);
     } catch (error) {
       Swal.fire({

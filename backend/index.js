@@ -25,7 +25,6 @@ app.use((err, req, res, next) => {
 }); 
 app.use(session({
   secret: "skyconnect@25",
-  // resave: false,
   resave: true,
   saveUninitialized: true,
   sameSite: 'lax' ,
@@ -33,8 +32,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 
   }
 }));
-
-
 // === END MIDDLEWARE === //
 
 
@@ -81,7 +78,11 @@ app.post('/signup', async (req, res) => {
 });
 
 
-// Login Page 
+/*** 
+ * 
+ ======= Login Page =========
+ * 
+ ***/ 
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -202,7 +203,7 @@ app.get('/username', (req, res) => {
 
 /*** 
  *
- *==== Contact Mails 
+ *==== Contact Mails for Contact 
  *  
  ***/
 
@@ -260,6 +261,8 @@ app.get("/contactMails", (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+
 
 // Define the route to send emails for Multiple Mail
 app.post('/send-emails', async (req, res) => {
@@ -322,7 +325,6 @@ app.post('/save-emails', (req, res) => {
       return res.status(500).send('Database error');
     }
     res.status(200).send('Valid emails inserted successfully');
-    // console.log("Valid emails inserted successfully:", validEmails);
   });
 });
 
