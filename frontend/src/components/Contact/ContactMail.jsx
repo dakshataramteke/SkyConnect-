@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Mail from "../Mails/Mail.jsx";
@@ -26,6 +25,10 @@ const ContactMail = () => {
   // Date picker state
   const [startDate, setStartDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Search input state
+  const [searchInput, setSearchInput] = useState("");
+  const [showSearchInput, setShowSearchInput] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -138,6 +141,14 @@ const ContactMail = () => {
     setShowDatePicker(!showDatePicker);
   };
 
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const filteredEmails = emails.filter(item =>
+    item.email.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
   return (
     <section className="contact_maildata">
       <div className="container ">
@@ -164,13 +175,24 @@ const ContactMail = () => {
                     >
                     </label>
                   </div>
-                  <div className="col text-center text-white">
+                  <div className="col text-center text-white" onClick={() => setShowSearchInput(!showSearchInput)}>
                     <b>Email <ArrowDropDownIcon/> </b>
                   </div>
                   <div className="col text-end text-white" style={{ paddingRight: '4rem' }} onClick={toggleDatePicker}>
                     <b>Date <ArrowDropDownIcon/>  </b>
                   </div>
                 </div>
+                {showSearchInput && (
+                  <div className="search-input-container">
+                    <input
+                      type="text"
+                      value={searchInput}
+                      onChange={handleSearchInputChange}
+                      placeholder="Search email..."
+                      className="form-control"
+                    />
+                  </div>
+                )}
                 {showDatePicker && (
                   <div className="date-picker-container">
                     <DatePicker
@@ -181,7 +203,7 @@ const ContactMail = () => {
                   </div>
                 )}
               </li>
-              {currentEmails.map((item, index) => (
+              {filteredEmails.map((item, index) => (
                 <li key={index} className="list-group-item">
                   <div className="row text-muted">
                     <div className="form-check">
@@ -217,8 +239,8 @@ const ContactMail = () => {
           <div className="col-12 py-3">
             {showSelectedEmails && (
               <>
-                <h4 className="text-center py-2">Selected Emails</h4>
-                <div className="list-group mx-auto" >
+                {/* <h4 className="text-center py-2">Selected Emails</h4> */}
+                <div className="list-group mx-auto d-none" >
                   {selectedEmails.length > 0 && (
                     <textarea
                       value={selectedEmails.join(", ")}
@@ -241,7 +263,7 @@ const ContactMail = () => {
                     type="button"
                     onClick={handleSubmit}
                   >
-                    {loading ? "loading..." : "Send Selected Emails"}
+                    {loading ? "loading..." : "Proceed"}
                   </button>
                 </div>
                 {loading && (
