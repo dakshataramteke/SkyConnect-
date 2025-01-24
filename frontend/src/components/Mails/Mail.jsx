@@ -1,9 +1,9 @@
-import React, { useState, useRef , useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PreviewMail from "./PreviewMail";
-import { useLocation } from "react-router-dom"; 
+import { useLocation } from "react-router-dom";
 import "./Mail.css";
 
 const Mail = ({ emails }) => {
@@ -26,16 +26,15 @@ const Mail = ({ emails }) => {
   const [loading, setLoading] = useState(false); // Loading state for progress
   const [editorHtml, setEditorHtml] = useState("");
 
-
-   useEffect(() => {
-      // Retrieve the user's name from local storage
-      const storedUserName = localStorage.getItem('Login User');
-      // console.log("Store user name in singlemail : ",storedUserName);
-      if (storedUserName) {
-        setUserName(storedUserName); // Set the user's name in state
-        // console.log("..... is set to " + storedUserName);
-      }
-    }, []);
+  useEffect(() => {
+    // Retrieve the user's name from local storage
+    const storedUserName = localStorage.getItem("Login User");
+    // console.log("Store user name in singlemail : ",storedUserName);
+    if (storedUserName) {
+      setUserName(storedUserName); // Set the user's name in state
+      // console.log("..... is set to " + storedUserName);
+    }
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue((prevState) => ({
@@ -182,10 +181,10 @@ const Mail = ({ emails }) => {
       }
 
       setNotSentCount(undeliveredCount); // Update not sent count
-
       Swal.fire({
-        title: "Successfully",
-        text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
+        title: "Success",
+        html: `Total send Attempt: <strong style="color: green; font-size: 20px;">${deliveredCount}</strong><br>
+               Total mail Failed: <strong style="color: red; font-size: 20px;">${undeliveredCount}</strong>`,
         icon: "success",
       }).then(() => {
         formRef.current.classList.remove("was-validated");
@@ -351,5 +350,3 @@ const Mail = ({ emails }) => {
 };
 
 export default Mail;
-
-
