@@ -126,6 +126,8 @@ Single Mail & Multiple Mail & Preview.jsx
   
 
 
+
+
 /**** ===== Dummy Mail  ===== ****/
 .dummy_form input{
   margin-bottom: 2px !important;
@@ -262,3 +264,6 @@ input[type="color"] {
 .form-control.is-valid, .was-validated .form-control:valid{
   background-image: none !important;;
 }
+
+
+

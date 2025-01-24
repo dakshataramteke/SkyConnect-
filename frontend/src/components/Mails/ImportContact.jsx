@@ -185,40 +185,43 @@ const ImportContact = () => {
                         Emails
                       </th>
                     ) : (
-                      <>{/* <th></th> */}</>
+                      <>
+                      {/* <th></th> */}
+                      </>
                     )}
                   </tr>
                 </thead>
                 <tbody>
-                  {emailsExtracted
-                    ? Array.from(
-                        { length: Math.ceil(tableData.length / 4) },
-                        (_, rowIndex) => (
-                          <tr key={rowIndex}>
-                            {tableData
-                              .map(
-                                (row) =>
-                                  row.find(
-                                    (cell) =>
-                                      typeof cell === "string" &&
-                                      cell.includes("@")
-                                  ) || ""
-                              )
-                              .filter((email) => email)
-                              .slice(rowIndex * 4, rowIndex * 4 + 4)
-                              .map((email, index) => (
-                                <td key={index}>{email}</td>
-                              ))}
-                          </tr>
-                        )
-                      )
-                    : tableData.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                          {row.map((cell, cellIndex) => (
-                            <td key={cellIndex}>{cell}</td>
-                          ))}
-                        </tr>
-                      ))}
+
+                      {emailsExtracted
+  ? Array.from(
+      { length: Math.ceil(tableData.length / 4) },
+      (_, rowIndex) => (
+        <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : ''}>
+          {tableData
+            .map(
+              (row) =>
+                row.find(
+                  (cell) =>
+                    typeof cell === "string" &&
+                    cell.includes("@")
+                ) || ""
+            )
+            .filter((email) => email)
+            .slice(rowIndex * 4, rowIndex * 4 + 4)
+            .map((email, index) => (
+              <td key={index}>{email}</td>
+            ))}
+        </tr>
+      )
+    )
+  : tableData.map((row, rowIndex) => (
+      <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : ''}>
+        {row.map((cell, cellIndex) => (
+          <td key={cellIndex}>{cell}</td>
+        ))}
+      </tr>
+    ))}
                 </tbody>
               </table>
 
@@ -236,7 +239,6 @@ const ImportContact = () => {
           {emails.length > 0 && (
             <div className="mt-4 text-center">
               <div className="text-center mt-4">
-                <h1 className="fw-bold fs-6 mb-3">Edit Extracted Emails</h1>
               </div>
 
               <textarea
@@ -246,13 +248,14 @@ const ImportContact = () => {
                     e.target.value.split(",").map((email) => email.trim())
                   )
                 }
-                className="form-control"
+                className="form-control d-none" 
                 rows="6"
                 style={{
                   whiteSpace: "pre-wrap",
                   wordBreak: "break-word",
                   fontWeight: "bold",
                   backgroundColor: "#e8eff7",
+                  
                 }}
               />
 
@@ -263,7 +266,7 @@ const ImportContact = () => {
                   disabled={isSaving}
                   style={{ position: "relative" }}
                 >
-                  {isSaving ? "Saving..." : "Save & Continue"}
+                  {isSaving ? "Saving..." : "Proceed..."}
                 </button>
                 {loading && (
                   <Box

@@ -1,12 +1,16 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Mail from "../Mails/Mail.jsx";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Box from "@mui/material/Box";
+import DatePicker from "react-datepicker"; // Import DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Import CSS for DatePicker
 import "./ContactMail.css";
 
 const ContactMail = () => {
@@ -19,6 +23,10 @@ const ContactMail = () => {
   const [loading, setLoading] = useState(false);
   const [showSelectedEmails, setShowSelectedEmails] = useState(false);
   
+  // Date picker state
+  const [startDate, setStartDate] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const emailsPerPage = 30;
@@ -42,75 +50,39 @@ const ContactMail = () => {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
   };
 
-  // useEffect(() => {
-  //   const username = localStorage.getItem('userEmail');
-  //   console.log("Frontend UserEmail of Contact : ", username + "  hey......");
-  //   axios
-  //     .get("http://localhost:8080/contactMails", { withCredentials: true })
-  //     .then((response) => {
-  //       console.log("Response from ContactMails : ", response.data.username);
-  //       console.log("The username is in cnt : ", username);
-  //       const fetchedData = response.data;
-  //       if (Array.isArray(fetchedData)) {
-  //         const emailList = fetchedData.flatMap((item) => 
-  //           item.email.split(",").map((email) => ({
-  //             email: email.trim(),
-  //             date: new Date(item.dates).toLocaleString("en-IN", {
-  //               timeZone: "Asia/Kolkata",
-  //             }),
-  //           }))
-  //         );
-  //         setEmails(emailList); 
-  //         window.addEventListener('scroll', handleScroll);
-  //         return () => {
-  //           window.removeEventListener('scroll', handleScroll);
-  //         }
-  //       } else {
-  //         console.error("Fetched data is not an array:", fetchedData);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // });
-
-
   useEffect(() => {
     const fetchData = async () => {
-        const username = localStorage.getItem('userEmail');
-        // console.log("Frontend UserEmail of Contact:", username);
+      const username = localStorage.getItem('userEmail');
+      try {
+        const response = await axios.get("http://localhost:8080/contactMails", {
+          params: { email: username }, 
+          withCredentials: true
+        });
         
-        try {
-            const response = await axios.get("http://localhost:8080/contactMails", {
-                params: { email: username }, 
-                withCredentials: true
-            });
-            
-            const fetchedData = response.data;
-            // console.log("Response from ContactMails:", fetchedData);
+        const fetchedData = response.data;
 
-            if (Array.isArray(fetchedData)) {
-                const emailList = fetchedData.flatMap((item) =>
-                    item.email.split(",").map((email) => ({
-                        email: email.trim(),
-                        date: new Date(item.dates).toLocaleString("en-IN", {
-                            timeZone: "Asia/Kolkata",
-                        }),
-                    }))
-                );
-                setEmails(emailList);
-                window.addEventListener("scroll", handleScroll);
-            } else {
-                console.error("Fetched data is not an array:", fetchedData);
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
+        if (Array.isArray(fetchedData)) {
+          const emailList = fetchedData.flatMap((item) =>
+            item.email.split(",").map((email) => ({
+              email: email.trim(),
+              date: new Date(item.dates).toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata",
+              }),
+            }))
+          );
+          setEmails(emailList);
+          window.addEventListener("scroll", handleScroll);
+        } else {
+          console.error("Fetched data is not an array:", fetchedData);
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     fetchData();
     return () => window.removeEventListener("scroll", handleScroll);
-}, []); // Add an empty dependency array to prevent repeated calls
+  }, []); // Add an empty dependency array to prevent repeated calls
 
   const handleCheckboxChange = (email) => {
     setSelectedEmails((prevSelected) => {
@@ -162,6 +134,10 @@ const ContactMail = () => {
     setCurrentPage(value); 
   };
 
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker);
+  };
+
   return (
     <section className="contact_maildata">
       <div className="container ">
@@ -189,12 +165,21 @@ const ContactMail = () => {
                     </label>
                   </div>
                   <div className="col text-center text-white">
-                    <b>Email</b>
+                    <b>Email <ArrowDropDownIcon/> </b>
                   </div>
-                  <div className="col text-end text-white" style={{ paddingRight: '4rem' }}>
-                    <b>Date</b>
+                  <div className="col text-end text-white" style={{ paddingRight: '4rem' }} onClick={toggleDatePicker}>
+                    <b>Date <ArrowDropDownIcon/>  </b>
                   </div>
                 </div>
+                {showDatePicker && (
+                  <div className="date-picker-container">
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      inline
+                    />
+                  </div>
+                )}
               </li>
               {currentEmails.map((item, index) => (
                 <li key={index} className="list-group-item">
@@ -223,7 +208,7 @@ const ContactMail = () => {
                 count={totalPages} // Set the total number of pages
                 page={currentPage} // Current page
                 onChange={handlePageChange} // Handle page change
-               color="primary"
+                color="primary"
               />
             </Stack>
           </div>
@@ -295,4 +280,3 @@ const ContactMail = () => {
 };
 
 export default ContactMail;
-

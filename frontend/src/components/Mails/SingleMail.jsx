@@ -214,12 +214,12 @@ const SingleMail = () => {
 
       setSentCount(deliveredCount);
       setNotSentCount(undeliveredCount);
-
       Swal.fire({
         title: "Success",
-        text: `Your email has been sent to ${deliveredCount} recipients. ${undeliveredCount} emails failed to send.`,
+        html: `Total send Attempt: <strong style="color: green; font-size: 20px;">${deliveredCount}</strong><br>
+               Total mail Failed: <strong style="color: red; font-size: 20px;">${undeliveredCount}</strong>`,
         icon: "success",
-      }).then(() => {
+    }).then(() => {
         formRef.current.classList.remove("was-validated");
 
         setValue({
