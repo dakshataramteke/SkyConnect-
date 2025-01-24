@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Mail from "../Mails/Mail.jsx";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -141,12 +142,17 @@ const ContactMail = () => {
     setShowDatePicker(!showDatePicker);
   };
 
+  const handleSearchInputToggle = () => {
+    setShowSearchInput(!showSearchInput);
+  };
+
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
   };
 
+  // Update the filteredEmails logic
   const filteredEmails = emails.filter(item =>
-    item.email.toLowerCase().includes(searchInput.toLowerCase())
+    item.email.toLowerCase().startsWith(searchInput.toLowerCase())
   );
 
   return (
@@ -175,11 +181,11 @@ const ContactMail = () => {
                     >
                     </label>
                   </div>
-                  <div className="col text-center text-white" onClick={() => setShowSearchInput(!showSearchInput)}>
-                    <b>Email <ArrowDropDownIcon/> </b>
+                  <div className="col text-center text-white" onClick={handleSearchInputToggle}>
+                    <b>Email {showSearchInput ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </b>
                   </div>
                   <div className="col text-end text-white" style={{ paddingRight: '4rem' }} onClick={toggleDatePicker}>
-                    <b>Date <ArrowDropDownIcon/>  </b>
+                    <b>Date {showDatePicker ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </b>
                   </div>
                 </div>
                 {showSearchInput && (
@@ -239,7 +245,6 @@ const ContactMail = () => {
           <div className="col-12 py-3">
             {showSelectedEmails && (
               <>
-                {/* <h4 className="text-center py-2">Selected Emails</h4> */}
                 <div className="list-group mx-auto d-none" >
                   {selectedEmails.length > 0 && (
                     <textarea
