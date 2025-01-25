@@ -27,6 +27,11 @@
 }
 
 
+.arrowdrop{
+    transition: all 0.3s ease-in-out 0.3s;
+    
+}
+
 /*** Table Responsive Styling  ***/
 @media(max-width:991px){
     .contact_maildata .list-group{

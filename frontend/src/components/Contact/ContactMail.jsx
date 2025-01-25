@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import "./ContactMail.css";
-import DatePicker from "react-datepicker"; // Import DatePicker
-import "react-datepicker/dist/react-datepicker.css"; // Import CSS for DatePicker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Mail from "../Mails/Mail.jsx";
 import axios from "axios";
+
 const ContactMail = () => {
-  const [emails, setEmails] = useState([]); 
+  const [emails, setEmails] = useState([]);
   const [selectedEmails, setSelectedEmails] = useState([]);
   const [toEmails, setToEmails] = useState([]);
   const [sentEmails, setSentEmails] = useState([]);
@@ -21,7 +22,7 @@ const ContactMail = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showSelectedEmails, setShowSelectedEmails] = useState(false);
-  
+
   // Date picker state
   const [startDate, setStartDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -46,31 +47,36 @@ const ContactMail = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollToBottom = () => {
-    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      const username = localStorage.getItem('userEmail');
+      const username = localStorage.getItem("userEmail");
       try {
         const response = await axios.get("http://localhost:8080/contactMails", {
-          params: { email: username }, 
-          withCredentials: true
+          params: { email: username },
+          withCredentials: true,
         });
-        
+
         const fetchedData = response.data;
 
         if (Array.isArray(fetchedData)) {
           const emailList = fetchedData.flatMap((item) =>
             item.email.split(",").map((email) => ({
               email: email.trim(),
-              date: new Date(item.dates).toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata",
-              }),
+              date: item.dates // Store raw dates for validation below
+                ? new Date(
+                    item.dates.split("/").reverse().join("-")
+                  ).toISOString()
+                : null, // Handle invalid or missing date
             }))
           );
           setEmails(emailList);
@@ -85,7 +91,7 @@ const ContactMail = () => {
 
     fetchData();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // Add an empty dependency array to prevent repeated calls
+  }, []);
 
   const handleCheckboxChange = (email) => {
     setSelectedEmails((prevSelected) => {
@@ -103,7 +109,7 @@ const ContactMail = () => {
       setSelectedEmails([]);
       setShowSelectedEmails(false);
     } else {
-      const allEmails = emails.map(item => item.email);
+      const allEmails = emails.map((item) => item.email);
       setSelectedEmails(allEmails);
       setShowSelectedEmails(true);
     }
@@ -128,13 +134,12 @@ const ContactMail = () => {
   };
 
   // Pagination logic
-  const indexOfLastEmail = currentPage * emailsPerPage; 
-  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage; 
-  const currentEmails = emails.slice(indexOfFirstEmail, indexOfLastEmail); 
-  const totalPages = Math.ceil(emails.length / emailsPerPage); 
+  const indexOfLastEmail = currentPage * emailsPerPage;
+  const indexOfFirstEmail = indexOfLastEmail - emailsPerPage;
+  const totalPages = Math.ceil(emails.length / emailsPerPage);
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); 
+    setCurrentPage(value);
   };
 
   const toggleDatePicker = () => {
@@ -149,10 +154,17 @@ const ContactMail = () => {
     setSearchInput(e.target.value);
   };
 
-  // Update the filteredEmails logic
-  const filteredEmails = emails.filter(item =>
-    item.email.toLowerCase().startsWith(searchInput.toLowerCase())
-  );
+  const filteredEmails = emails.filter((item) => {
+    const emailDate = item.date ? new Date(item.date) : null;
+    const selectedDate = startDate ? new Date(startDate) : null;
+    console.log("selectedDate : ", selectedDate);
+    console.log("emailDate : ", emailDate);
+    return (
+      item.email.toLowerCase().startsWith(searchInput.toLowerCase()) &&
+      (!selectedDate ||
+        (emailDate && emailDate.toDateString() === selectedDate.toDateString()))
+    );
+  });
 
   return (
     <section className="contact_maildata">
@@ -161,10 +173,14 @@ const ContactMail = () => {
           <div className="col mt-3 mt-md-5 contact_alldata">
             <h2 className="text-center ">All Emails Data</h2>
             <p className="text-center py-2">
-              This feature is designed to streamline the management of email communications.
+              This feature is designed to streamline the management of email
+              communications.
             </p>
             <ul className="list-group ">
-              <li className="list-group-item list-group-item-light" style={{ backgroundColor: '#4ca2ff' }}>
+              <li
+                className="list-group-item list-group-item-light"
+                style={{ backgroundColor: "#4ca2ff" }}
+              >
                 <div className="row">
                   <div className="form-check ">
                     <input
@@ -177,14 +193,34 @@ const ContactMail = () => {
                     <label
                       className="form-check-label"
                       htmlFor="selectAllCheckbox"
-                    >
-                    </label>
+                    ></label>
                   </div>
-                  <div className="col text-center text-white" onClick={handleSearchInputToggle}>
-                    <b>Email {showSearchInput ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </b>
+                  <div
+                    className="col text-center text-white"
+                    onClick={handleSearchInputToggle}
+                  >
+                    <b>
+                      Email{" "}
+                      {showSearchInput ? (
+                        <ArrowDropUpIcon />
+                      ) : (
+                        <ArrowDropDownIcon />
+                      )}{" "}
+                    </b>
                   </div>
-                  <div className="col text-end text-white" style={{ paddingRight: '4rem' }} onClick={toggleDatePicker}>
-                    <b>Date {showDatePicker ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </b>
+                  <div
+                    className="col text-end text-white"
+                    style={{ paddingRight: "4rem" }}
+                    onClick={toggleDatePicker}
+                  >
+                    <b>
+                      Date{" "}
+                      {showDatePicker ? (
+                        <ArrowDropUpIcon className="arrowdrop" />
+                      ) : (
+                        <ArrowDropDownIcon />
+                      )}{" "}
+                    </b>
                   </div>
                 </div>
                 {showSearchInput && (
@@ -202,7 +238,10 @@ const ContactMail = () => {
                   <div className="date-picker-container">
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date) => {
+                        setStartDate(date); // Update the selected date
+                        setShowDatePicker(false); // Hide the date picker
+                      }}
                       inline
                     />
                   </div>
@@ -221,8 +260,11 @@ const ContactMail = () => {
                       />
                     </div>
                     <div className="col text-start">{item.email}</div>
-                    <div className="col text-end" style={{ paddingRight: '3.545rem' }}>
-                      {item.date.split("").slice(0, 9).join("")}
+                    <div
+                      className="col text-end"
+                      style={{ paddingRight: "3.545rem" }}
+                    >
+                      {item.date.split("").slice(0, 10).join("")}
                     </div>
                   </div>
                 </li>
@@ -231,7 +273,7 @@ const ContactMail = () => {
           </div>
           <div className="d-flex justify-content-center my-3">
             <Stack spacing={2}>
-              <Pagination 
+              <Pagination
                 count={totalPages} // Set the total number of pages
                 page={currentPage} // Current page
                 onChange={handlePageChange} // Handle page change
@@ -244,7 +286,7 @@ const ContactMail = () => {
           <div className="col-12 py-3">
             {showSelectedEmails && (
               <>
-                <div className="list-group mx-auto d-none" >
+                <div className="list-group mx-auto d-none">
                   {selectedEmails.length > 0 && (
                     <textarea
                       value={selectedEmails.join(", ")}

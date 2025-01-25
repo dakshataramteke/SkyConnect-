@@ -42,3 +42,44 @@ table {
 .table tr:first-child{
     font-weight: bold !important;
   }
+
+
+  /* For Downward Arrow  */
+  
+.fixed_Arrow{
+  z-index:11;
+}
+.import_background .upwardArrow ,
+.import_background .downwardArrow {
+  position: fixed; 
+  right: 20px;
+  bottom: 20px; 
+  background-color: #4ca2ff;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  color:#fff;
+   display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+.import_background .upwardArrow::after ,
+.import_background .downwardArrow::after{
+  position: absolute !important;
+  content: '';
+  top: 0;
+  bottom: 10px;
+  right: 10px;
+  transform: translate(-50%, -50%);
+}
+.import_background .upwardArrow::after {
+  bottom: 10px;
+  right: 10px;
+}
+.import_background .downwardArrow::after { 
+  bottom: 10px;
+  left: 10px;
+}

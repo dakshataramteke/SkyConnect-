@@ -1,3 +1,5 @@
+// === Require modules === //
+
 const express = require('express');
 const session = require('express-session');
 const mysql = require('mysql');
@@ -6,14 +8,15 @@ const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
 const connection = require('./models/db.js');
 const bcrypt = require('bcrypt');
-const port = 8080;
+
+// === Initialize the App === //
 const app = express();
+const port = 8080;
 
-
-// ===  MiddleWares === //
+// === Configuration  MiddleWares === //
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3001',
   credentials: true
 }));
 app.use(express.json());
@@ -23,6 +26,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 }); 
+
+// Session Middleware 
 app.use(session({
   secret: "skyconnect@25",
   resave: true,
@@ -210,8 +215,8 @@ app.get('/username', (req, res) => {
 
 app.get("/contactMails", (req, res) => {
   const email = req.query.email; 
-  const sql = `SELECT email, dates FROM excelsheetdata WHERE username = ?`;
-  
+  // const sql = `SELECT email, dates FROM excelsheetdata WHERE username = ?`;
+  const sql = `SELECT email, DATE_FORMAT(dates, '%Y-%m-%d') AS dates FROM excelsheetdata WHERE username = ?`;
   connection.query(sql, email, (err, results) => {
     if (err) {
       console.error("Error executing query:", err);
@@ -328,7 +333,7 @@ app.post('/save-emails', (req, res) => {
   });
 });
 
-
+// Start the server
 app.listen(port,()=>{
     console.log(`Server is listening on port ${port}`);
 })

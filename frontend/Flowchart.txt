@@ -2,7 +2,7 @@
 
 ====== SKY CONNECT ======
 
-- ** skyconnect ** (root folder)
+ ** skyconnect ** (root folder)
  - backend folder (subfolder folder)
  - frontend folder (subfolder folder)
 

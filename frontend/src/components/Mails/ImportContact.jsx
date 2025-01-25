@@ -8,6 +8,7 @@ import Mail from "./Mail.jsx"; // Import the Mail component
 import Tabs from "../HomePage/Tabs.jsx";
 import "./ImportContact.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Box from "@mui/material/Box";
 
 const ImportContact = () => {
@@ -18,6 +19,7 @@ const ImportContact = () => {
   const [showMail, setShowMail] = useState(false);
   const [toEmails, setToEmails] = useState([]); // State to hold the emails to send
   const [loading, setLoading] = useState(false); // New loading state
+  const [showDownward, setShowDownward] = useState(true);
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -32,6 +34,12 @@ const ImportContact = () => {
   const handleFileInput = (event) => {
     const file = event.target.files[0];
     if (file) processFile(file);
+  };
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
   const processFile = (file) => {
@@ -193,7 +201,7 @@ const ImportContact = () => {
                     ? Array.from(
                         { length: Math.ceil(tableData.length / 4) },
                         (_, rowIndex) => (
-                          <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : 'bold-row'}>
+                          <tr key={rowIndex}>
                             {tableData
                               .map(
                                 (row) =>
@@ -276,14 +284,21 @@ const ImportContact = () => {
                   </Box>
                 )}
               </div>
+              
             </div>
           )}
         </div>
+        {showDownward && (
+                <div className="downwardArrow" onClick={scrollToBottom}>
+                  <ArrowDownwardIcon />
+                </div>
+              )}
       </section>
       {showMail && <Mail emails={toEmails} />}{" "}
-      {/* Pass all emails (valid and invalid) to the Mail component */}
+     
     </>
   );
 };
 
 export default ImportContact;
+
