@@ -39,5 +39,6 @@ table {
     text-align: center;
   }
 
-
-
+.table tr:first-child{
+    font-weight: bold !important;
+  }

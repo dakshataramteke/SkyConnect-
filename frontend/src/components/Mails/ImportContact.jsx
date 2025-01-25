@@ -59,7 +59,7 @@ const ImportContact = () => {
     });
     setEmails(emailArray);
     setToEmails(emailArray); // Store all extracted emails
-    setEmailsExtracted(true);
+    setEmailsExtracted(true); // Set to true after extracting emails
     console.log("Extracted Emails: ", emailArray);
   };
 
@@ -86,7 +86,6 @@ const ImportContact = () => {
 
     setIsSaving(true);
     setLoading(true); // Start loading
-    // console.log("The Emails are: ", processedEmails);
 
     // Retrieve the user's email from local storage
     const username = localStorage.getItem("userEmail");
@@ -121,11 +120,9 @@ const ImportContact = () => {
       setTimeout(() => {
         setLoading(false); // Stop loading
         setIsSaving(false); // Reset saving state
-      });
+      }, 2000); // Added missing delay time
     }
   };
-
-
 
   return (
     <>
@@ -192,54 +189,54 @@ const ImportContact = () => {
                   </tr>
                 </thead>
                 <tbody>
-
-                      {emailsExtracted
-  ? Array.from(
-      { length: Math.ceil(tableData.length / 4) },
-      (_, rowIndex) => (
-        <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : ''}>
-          {tableData
-            .map(
-              (row) =>
-                row.find(
-                  (cell) =>
-                    typeof cell === "string" &&
-                    cell.includes("@")
-                ) || ""
-            )
-            .filter((email) => email)
-            .slice(rowIndex * 4, rowIndex * 4 + 4)
-            .map((email, index) => (
-              <td key={index}>{email}</td>
-            ))}
-        </tr>
-      )
-    )
-  : tableData.map((row, rowIndex) => (
-      <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : ''}>
-        {row.map((cell, cellIndex) => (
-          <td key={cellIndex}>{cell}</td>
-        ))}
-      </tr>
-    ))}
+                  {emailsExtracted
+                    ? Array.from(
+                        { length: Math.ceil(tableData.length / 4) },
+                        (_, rowIndex) => (
+                          <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : 'bold-row'}>
+                            {tableData
+                              .map(
+                                (row) =>
+                                  row.find(
+                                    (cell) =>
+                                      typeof cell === "string" &&
+                                      cell.includes("@")
+                                  ) || ""
+                              )
+                              .filter((email) => email)
+                              .slice(rowIndex * 4, rowIndex * 4 + 4)
+                              .map((email, index) => (
+                                <td key={index}>{email}</td>
+                              ))}
+                          </tr>
+                        )
+                      )
+                    : tableData.map((row, rowIndex) => (
+                        <tr key={rowIndex} className={rowIndex === 0 ? 'bold-row' : ''}>
+                          {row.map((cell, cellIndex) => (
+                            <td key={cellIndex}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
                 </tbody>
               </table>
 
               <div className="text-center">
-                <button
-                  className="btn btn-primary mt-3 mb-2"
-                  onClick={extractEmails}
-                >
-                  Extract Emails
-                </button>
+                {!emailsExtracted && ( // Only show the button if emails have not been extracted
+                  <button
+                    className="btn btn-primary mt-3 mb-2"
+                    onClick={extractEmails}
+                  >
+                    Extract Emails
+                  </button>
+                )}
               </div>
             </div>
           )}
 
           {emails.length > 0 && (
             <div className="mt-4 text-center">
-              <div className="text-center mt-4">
-              </div>
+              <div className="text-center mt-4"></div>
 
               <textarea
                 value={emails.join(", ")}
@@ -248,14 +245,13 @@ const ImportContact = () => {
                     e.target.value.split(",").map((email) => email.trim())
                   )
                 }
-                className="form-control d-none" 
+                className="form-control d-none"
                 rows="6"
                 style={{
                   whiteSpace: "pre-wrap",
                   wordBreak: "break-word",
                   fontWeight: "bold",
                   backgroundColor: "#e8eff7",
-                  
                 }}
               />
 
@@ -266,14 +262,14 @@ const ImportContact = () => {
                   disabled={isSaving}
                   style={{ position: "relative" }}
                 >
-                  {isSaving ? "Saving..." : "Proceed..."}
+                  {isSaving ? "Saving..." : "Proceed"}
                 </button>
                 {loading && (
                   <Box
                     sx={{
                       display: "flex",
                       justifyContent: "center",
-                      marginLeft: "10px",
+                      marginTop: "10px",
                     }}
                   >
                     <CircularProgress size={24} />
