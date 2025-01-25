@@ -42,7 +42,7 @@ frontend(folder)
 
 1. MainPage 
   a. Login Page (for login) - (LoginPage.css)
-  b. SignUp Page (for sign/ Register) - (LoginPage.css)
+  b. SignUp Page (for sign / Register) - (LoginPage.css)
 
 
 2. HomePage 
@@ -69,3 +69,12 @@ frontend(folder)
   a. Contact.jsx - for contact page - (Contact.css)
   b. Mail.jsx - Mail form - (Mail.css)
   c. PreviewMail.jsx - for previewing the mail - (Mail.css)
+
+
+==========================
+# Technologies Used 
+==========================
+  
+  1. Frontend - Bootstrap5 , ReactJs
+  2. Backend - Nodejs, Express js
+  3. Database - MySQL 
