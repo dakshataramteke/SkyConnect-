@@ -17,6 +17,15 @@ backend(folder)
     database connection 
  - index.js file 
 
+# Index.js
+ Routes 
+
+a. Login Page - /login 
+b. SignUp Page - /signup
+c. for get username - /username
+d. SingleMail - /single 
+e. For sending a real email - /send-emails
+
 
 ======================================
  # Frontend Folder Structure
@@ -27,7 +36,7 @@ frontend(folder)
  - src folder (subfolder folder)
    - assets folder (Images)
    - components 
-   - App.js 
+   - App.js  (Authentication & Routing)
 
 
 # src folder
@@ -47,7 +56,7 @@ frontend(folder)
 
 2. HomePage 
   a. Navbar -(Navbar.css)
-  b. Home.jsx (first Home page ) -(HomePage.css)
+  b. Home.jsx (first Home page ) - (HomePage.css)
 
 
 3. Mails 
@@ -58,11 +67,11 @@ frontend(folder)
   b. Multiple Mail
     i. Import Contact.jsx - for importing the contact from csv  -(ImportContact.css)
     ii. Mail.jsx - Mail form  -(Mail.css)
-    iii. PreviewMail.jsx - for previewing the mail -(Mail.css)
+    iii. PreviewMail.jsx - for previewing the mail - (Mail.css)
 
 
 4. Pricing Plans Page
-  a. PricingPlans.jsx - for pricing plans -(Pricing.css)
+  a. PricingPlans.jsx - for pricing plans - (Pricing.css)
 
 
 5. Contact Page
@@ -76,5 +85,10 @@ frontend(folder)
 ==========================
   
   1. Frontend - Bootstrap5 , ReactJs
+    a. Icons - Material UI
+    b. API - axios
+    c. popup - sweetalert
+
   2. Backend - Nodejs, Express js
+
   3. Database - MySQL 
