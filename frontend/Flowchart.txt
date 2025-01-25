@@ -1,0 +1,71 @@
+# Files and Folder Structure 
+
+===== SKY CONNECT ====
+
+- **skyconnect** (root folder)
+ - backend folder (subfolder folder)
+ - frontend folder (subfolder folder)
+
+
+=====================================
+# Backend Folder Structure
+=====================================
+
+backend(folder)
+
+ - models folder (subfolder folder)
+    database connection 
+ - index.js file 
+
+
+======================================
+ # Frontend Folder Structure
+ =====================================
+frontend(folder)
+
+ - public folder (logo)
+ - src folder (subfolder folder)
+   - assets folder (Images)
+   - components 
+   - App.js 
+
+
+# src folder
+# Components
+ 1. MainPage
+ 2. HomePage
+ 3. Mails 
+ 4. PricingPlans
+ 5. Contact
+
+
+
+1. MainPage 
+  a. Login Page (for login) - (LoginPage.css)
+  b. SignUp Page (for sign/ Register) - (LoginPage.css)
+
+
+2. HomePage 
+  a. Navbar -(Navbar.css)
+  b. Home.jsx (first Home page ) -(HomePage.css)
+
+
+3. Mails 
+  a. Single Mail 
+    i. SingleMail.jsx - Single sending email - (Mail.css)
+    ii. PreviewMail.jsx  - for previewing the mail - (Mail.css)
+
+  b. Multiple Mail
+    i. Import Contact.jsx - for importing the contact from csv  -(ImportContact.css)
+    ii. Mail.jsx - Mail form  -(Mail.css)
+    iii. PreviewMail.jsx - for previewing the mail -(Mail.css)
+
+
+4. Pricing Plans Page
+  a. PricingPlans.jsx - for pricing plans -(Pricing.css)
+
+
+5. Contact Page
+  a. Contact.jsx - for contact page - (Contact.css)
+  b. Mail.jsx - Mail form - (Mail.css)
+  c. PreviewMail.jsx - for previewing the mail - (Mail.css)
