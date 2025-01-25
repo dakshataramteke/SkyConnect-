@@ -1,8 +1,8 @@
 # Files and Folder Structure 
 
-===== SKY CONNECT ====
+====== SKY CONNECT ======
 
-- **skyconnect** (root folder)
+- ** skyconnect ** (root folder)
  - backend folder (subfolder folder)
  - frontend folder (subfolder folder)
 
